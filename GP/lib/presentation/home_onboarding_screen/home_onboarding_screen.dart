@@ -1,4 +1,5 @@
 import 'package:flutter_svg/svg.dart';
+import 'package:hierosecret/presentation/home_page/home_page.dart';
 
 import 'controller/home_onboarding_controller.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,9 @@ class HomeOnboardingScreen extends GetWidget<HomeOnboardingController> {
                   text: "lbl_let_s_explore".tr,
                   margin: EdgeInsets.symmetric(horizontal: 6.h),
                   buttonStyle: CustomButtonStyles.fillRed,
+                  onPressed: () {
+                    Get.to(() => HomePage());
+                  },
                 ),
               ],
             ),

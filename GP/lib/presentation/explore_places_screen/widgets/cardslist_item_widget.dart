@@ -9,6 +9,13 @@ class CardslistItemWidget extends StatelessWidget {
     this.cardslistItemModelObj, {
     Key? key,
     this.onTapCards,
+    Rx<String>? name,
+    Rx<String>? about,
+    Rx<String>? Imageurl,
+    Rx<String>? About,
+    required Rx<String> longitude,
+    required Rx<String> latitude,
+    required Rx<String> rating,
   }) : super(
           key: key,
         );
@@ -37,7 +44,7 @@ class CardslistItemWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CustomImageView(
-              imagePath: ImageConstant.img12024919911911,
+              imagePath: cardslistItemModelObj.Imageurl!.value,
               height: 77.v,
               width: 93.h,
               radius: BorderRadius.circular(
@@ -60,7 +67,7 @@ class CardslistItemWidget extends StatelessWidget {
                             style: theme.textTheme.labelMedium,
                           ),
                           TextSpan(
-                            text: "msg_grand_egyptian_museum".tr,
+                            text: cardslistItemModelObj.name!.value,
                             style: CustomTextStyles.labelMediumffc18553,
                           ),
                         ],
@@ -68,15 +75,23 @@ class CardslistItemWidget extends StatelessWidget {
                       textAlign: TextAlign.left,
                     ),
                   ),
+                  SizedBox(height: 10.v),
                   SizedBox(
                     width: 188.h,
-                    child: Obx(
-                      () => Text(
-                        cardslistItemModelObj.about!.value,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodySmall,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "About:".tr,
+                            style: theme.textTheme.labelMedium,
+                          ),
+                          TextSpan(
+                            text: cardslistItemModelObj.about!.value,
+                            style: CustomTextStyles.labelMediumffc18553,
+                          ),
+                        ],
                       ),
+                      textAlign: TextAlign.left,
                     ),
                   ),
                 ],

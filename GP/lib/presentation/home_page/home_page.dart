@@ -135,7 +135,7 @@ class HomePage extends StatelessWidget {
   /// Navigates to the nameGeneratorScreen when the action is triggered.
   onTapTwentySix() {
     Get.toNamed(
-      AppRoutes.nameGeneratorScreen,
+      AppRoutes.explorePlacesScreen,
     );
   }
 }

@@ -1,16 +1,28 @@
-import '../../../core/app_export.dart';
+import 'package:get/get.dart';
 
-/// This class is used in the [cardslist_item_widget] screen.
 class CardslistItemModel {
-  CardslistItemModel({
-    this.about,
-    this.id,
-  }) {
-    about = about ?? Rx("About : Biggest & Newest Museam in Egypt");
-    id = id ?? Rx("");
+  late Rx<String> name;
+  late Rx<String> about;
+  late Rx<String> Imageurl;
+  late Rx<String> About;
+  late Rx<String> longitude;
+  late Rx<String> latitude;
+  late Rx<String> rating;
+
+  CardslistItemModel(
+      {String? name,
+      String? about,
+      String? Imageurl,
+      String? About,
+      String? longitude,
+      String? latitude,
+      String? rating}) {
+    this.name = name?.obs ?? Rx<String>("");
+    this.about = about?.obs ?? Rx<String>("");
+    this.Imageurl = Imageurl?.obs ?? Rx<String>("");
+    this.About = About?.obs ?? Rx<String>("");
+    this.longitude = longitude?.obs ?? Rx<String>("");
+    this.latitude = latitude?.obs ?? Rx<String>("");
+    this.rating = rating?.obs ?? Rx<String>("");
   }
-
-  Rx<String>? about;
-
-  Rx<String>? id;
 }
