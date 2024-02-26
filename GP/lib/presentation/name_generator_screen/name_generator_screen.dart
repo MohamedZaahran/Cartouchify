@@ -45,7 +45,7 @@ class NameGeneratorScreen extends StatelessWidget {
                           width: 290.h,
                           margin: EdgeInsets.only(left: 9.h, right: 51.h),
                           child: Text(
-                            "Enter name you wish to know".tr,
+                            "Enter name you wish to generate".tr,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.titleLarge,
@@ -111,6 +111,7 @@ class NameGeneratorScreen extends StatelessWidget {
                           child: Obx(
                             () => Text(
                               controller.mappedSymbols.value,
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 32,
                                 color: Colors.yellow, // Set text color to gold
@@ -157,28 +158,32 @@ class NameGeneratorScreen extends StatelessWidget {
     return SizedBox(
       height: 90.v,
       width: double.maxFinite,
-      child: Stack(alignment: Alignment.bottomCenter, children: [
-        CustomAppBar(
-          leadingWidth: double.maxFinite,
-          leading: AppbarLeadingImage(
-            imagePath: ImageConstant.imgNounBack1521721Primarycontainer,
-            margin: EdgeInsets.only(left: 25.h, top: 45.v, right: 327.h),
-            onTap: () {
-              onTapNounBack();
-            },
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          CustomAppBar(
+            leadingWidth: double.maxFinite,
+            styleType: Style.bgFill,
           ),
-          styleType: Style.bgFill,
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Text("lbl_name_generator".tr,
-              style: theme.textTheme.headlineLarge),
-        ),
-      ]),
+          Positioned(
+            top: 30,
+            left: 20,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Text(
+              "lbl_name_generator".tr,
+              style: theme.textTheme.headlineLarge,
+            ),
+          ),
+        ],
+      ),
     );
-  }
-
-  onTapNounBack() {
-    Get.toNamed(AppRoutes.homeContainerScreen);
   }
 }

@@ -113,24 +113,23 @@ class PlaceScreen extends GetWidget<PlaceController> {
                   fit: BoxFit.cover,
                 )
               : SizedBox(),
-          CustomImageView(
-            imagePath: ImageConstant.imgNounBack1521721Primarycontainer,
-            height: 50,
-            width: 41,
-            alignment: Alignment.topLeft,
-            margin: EdgeInsets.only(left: 25, top: 45),
-            onTap: () {
-              onTapImgNounBack();
-            },
+          Positioned(
+            top: 20,
+            left: 20,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                Get.back();
+              },
+            ),
           ),
-          Positioned.fill(
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  // Remove the direct call to launchGoogleMapsApp here
-                },
-              ),
+          Positioned(
+            top: 45,
+            left: 25,
+            child: CustomImageView(
+              imagePath: ImageConstant.imgNounBack1521721Primarycontainer,
+              height: 50,
+              width: 41,
             ),
           ),
         ],
@@ -179,10 +178,6 @@ class PlaceScreen extends GetWidget<PlaceController> {
         ],
       ),
     );
-  }
-
-  onTapImgNounBack() {
-    Get.toNamed(AppRoutes.explorePlacesScreen);
   }
 
   void launchGoogleMapsApp(double latitude, double longitude) {

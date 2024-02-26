@@ -73,13 +73,11 @@ class LastScannedScreen extends GetWidget<LastScannedController> {
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leadingWidth: 53.h,
-      leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgVectorPrimarycontainer,
-        margin: EdgeInsets.only(
-          left: 37.h,
-          top: 55.v,
-          bottom: 10.v,
-        ),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          Get.back();
+        },
       ),
       centerTitle: true,
       title: AppbarTitle(

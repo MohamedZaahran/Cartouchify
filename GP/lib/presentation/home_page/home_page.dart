@@ -64,9 +64,7 @@ class HomePage extends StatelessWidget {
                           SizedBox(height: 2.v),
                           Text("lbl_activities".tr,
                               style: theme.textTheme.titleLarge),
-                          SizedBox(height: 12.v),
                           _buildGrid(),
-                          SizedBox(height: 21.v)
                         ])))));
   }
 
@@ -127,15 +125,29 @@ class HomePage extends StatelessWidget {
               GridItemModel model =
                   controller.homeModelObj.value.gridItemList.value[index];
               return GridItemWidget(model, onTapTwentySix: () {
-                onTapTwentySix();
+                onTapTwentySix(index);
               });
             })));
   }
 
   /// Navigates to the nameGeneratorScreen when the action is triggered.
-  onTapTwentySix() {
-    Get.toNamed(
-      AppRoutes.nameGeneratorScreen,
-    );
+  onTapTwentySix(int index) {
+    print(index);
+    switch (index) {
+      case 0:
+        Get.toNamed(AppRoutes.nameGeneratorScreen);
+        break;
+      case 1:
+        Get.toNamed(AppRoutes.explorePlacesScreen);
+        break;
+      case 2:
+        Get.toNamed(AppRoutes.lastScannedScreen);
+        break;
+      case 3:
+        Get.toNamed(AppRoutes.learnHeiroglyphsScreen);
+        break;
+      default:
+        break;
+    }
   }
 }
