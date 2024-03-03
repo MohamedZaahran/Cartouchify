@@ -303,7 +303,8 @@ class ProfileScreen extends GetWidget<ProfileController> {
   Widget _buildNavBarBottomAppBar() {
     return CustomBottomAppBar(
       onChanged: (BottomBarEnum type) {
-        Get.toNamed(getCurrentRoute(type), id: 1);
+        print(getCurrentRoute(type));
+        Get.toNamed(getCurrentRoute(type));
       },
     );
   }
@@ -325,9 +326,10 @@ class ProfileScreen extends GetWidget<ProfileController> {
           padding: EdgeInsets.only(left: 9.h),
           child: Text(
             addresses,
-            style: theme.textTheme.bodyLarge!.copyWith(
-              color: theme.colorScheme.primary,
-            ),
+            style: theme.textTheme.bodyLarge?.copyWith(
+                  color: theme.colorScheme.primary,
+                ) ??
+                TextStyle(), // Providing a default TextStyle if theme.textTheme.bodyLarge is null
           ),
         ),
         Spacer(),
@@ -342,23 +344,14 @@ class ProfileScreen extends GetWidget<ProfileController> {
 
   ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {
+    print(type);
     switch (type) {
       case BottomBarEnum.Home:
-        return "/";
-      case BottomBarEnum.Profile:
         return AppRoutes.homePage;
+      case BottomBarEnum.Profile:
+        return AppRoutes.profileScreen;
       default:
         return "/";
-    }
-  }
-
-  ///Handling page based on route
-  Widget getCurrentPage(String currentRoute) {
-    switch (currentRoute) {
-      case AppRoutes.homePage:
-        return HomePage();
-      default:
-        return DefaultWidget();
     }
   }
 }

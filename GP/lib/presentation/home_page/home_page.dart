@@ -29,60 +29,63 @@ class HomePage extends StatelessWidget {
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: _buildAppBar(),
-        body: Container(
-          width: SizeUtils.width,
-          height: SizeUtils.height,
-          padding: EdgeInsets.only(top: 56.v),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.onPrimary,
-            image: DecorationImage(
-              image: AssetImage(ImageConstant.imgOnboarding),
-              fit: BoxFit.cover,
-            ),
-          ),
+        body: SingleChildScrollView(
           child: Container(
-            width: double.maxFinite,
-            padding: EdgeInsets.symmetric(horizontal: 30.h, vertical: 15.v),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "lbl_what_s_new".tr,
-                  style: theme.textTheme.titleLarge,
-                ),
-                SizedBox(height: 5.v),
-                _buildSlider(),
-                SizedBox(height: 13.v),
-                Obx(
-                  () => Container(
-                    height: 15.v,
-                    margin: EdgeInsets.only(left: 120.h),
-                    child: AnimatedSmoothIndicator(
-                      activeIndex: controller.sliderIndex.value,
-                      count: controller
-                          .homeModelObj.value.sliderItemList.value.length,
-                      axisDirection: Axis.horizontal,
-                      effect: ScrollingDotsEffect(
-                        spacing: 5,
-                        activeDotColor: appTheme.red300,
-                        dotColor: theme.colorScheme.primary,
-                        dotHeight: 15.v,
-                        dotWidth: 15.h,
+            width: SizeUtils.width,
+            height: SizeUtils.height,
+            padding: EdgeInsets.only(top: 56.v),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.onPrimary,
+              image: DecorationImage(
+                image: AssetImage(ImageConstant.imgOnboarding),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              width: double.maxFinite,
+              padding: EdgeInsets.symmetric(horizontal: 30.h, vertical: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "What's New?".tr,
+                    style: theme.textTheme.titleLarge,
+                  ),
+                  SizedBox(height: 5.v),
+                  _buildSlider(),
+                  SizedBox(height: 13.v),
+                  Obx(
+                    () => Container(
+                      height: 15.v,
+                      margin: EdgeInsets.only(left: 120.h),
+                      child: AnimatedSmoothIndicator(
+                        activeIndex: controller.sliderIndex.value,
+                        count: controller
+                            .homeModelObj.value.sliderItemList.value.length,
+                        axisDirection: Axis.horizontal,
+                        effect: ScrollingDotsEffect(
+                          spacing: 5,
+                          activeDotColor: appTheme.red300,
+                          dotColor: theme.colorScheme.primary,
+                          dotHeight: 15.v,
+                          dotWidth: 15.h,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 2.v),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: 6.h, bottom: 0.v), // Adjust padding here
-                  child: Text(
-                    "lbl_activities".tr,
-                    style: theme.textTheme.titleLarge,
+                  SizedBox(height: 2.v),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 6.h,
+                    ),
+                    child: Text(
+                      "lbl_activities".tr,
+                      style: theme.textTheme.titleLarge,
+                    ),
                   ),
-                ),
-                _buildGrid(),
-              ],
+                  _buildGrid(),
+                ],
+              ),
             ),
           ),
         ),
@@ -125,7 +128,7 @@ class HomePage extends StatelessWidget {
       child: Obx(
         () => CarouselSlider.builder(
           options: CarouselOptions(
-            height: 153.v,
+            height: 153,
             initialPage: 0,
             autoPlay: true,
             viewportFraction: 1.0,
@@ -147,27 +150,25 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildGrid() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 6.h, vertical: 1.v),
-      child: Obx(
-        () => GridView.builder(
-          shrinkWrap: true,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            mainAxisExtent: 151.v,
-            crossAxisCount: 2,
-            mainAxisSpacing: 26.h,
-            crossAxisSpacing: 26.h,
-          ),
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: controller.homeModelObj.value.gridItemList.value.length,
-          itemBuilder: (context, index) {
-            GridItemModel model =
-                controller.homeModelObj.value.gridItemList.value[index];
-            return GridItemWidget(model, onTapTwentySix: () {
-              onTapTwentySix(index);
-            });
-          },
+    return Obx(
+      () => GridView.builder(
+        padding: EdgeInsets.only(top: 20.v),
+        shrinkWrap: true,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          mainAxisExtent: 160.v,
+          crossAxisCount: 2,
+          mainAxisSpacing: 26,
+          crossAxisSpacing: 26,
         ),
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: controller.homeModelObj.value.gridItemList.value.length,
+        itemBuilder: (context, index) {
+          GridItemModel model =
+              controller.homeModelObj.value.gridItemList.value[index];
+          return GridItemWidget(model, onTapTwentySix: () {
+            onTapTwentySix(index);
+          });
+        },
       ),
     );
   }
@@ -175,7 +176,7 @@ class HomePage extends StatelessWidget {
   Widget _buildFiftyNine() {
     return CustomBottomAppBar(
       onChanged: (BottomBarEnum type) {
-        Get.toNamed(getCurrentRoute(type), id: 1);
+        Get.toNamed(getCurrentRoute(type));
       },
     );
   }
@@ -183,9 +184,9 @@ class HomePage extends StatelessWidget {
   String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Home:
-        return "/";
-      case BottomBarEnum.Profile:
         return AppRoutes.homePage;
+      case BottomBarEnum.Profile:
+        return AppRoutes.profileScreen;
       default:
         return "/";
     }
