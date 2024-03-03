@@ -14,6 +14,7 @@ class LoginController extends GetxController {
   Rx<LoginModel> loginModelObj = LoginModel().obs;
 
   Rx<bool> isShowPassword = true.obs;
+  Rx<bool> isError = false.obs;
 
   @override
   void onClose() {

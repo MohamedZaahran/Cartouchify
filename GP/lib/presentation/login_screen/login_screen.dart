@@ -1,18 +1,19 @@
-// login_screen.dart
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'controller/login_controller.dart';
 import 'package:hierosecret/core/app_export.dart';
 import 'package:hierosecret/core/utils/validation_functions.dart';
 import 'package:hierosecret/widgets/custom_elevated_button.dart';
 import 'package:hierosecret/widgets/custom_text_form_field.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Add this import
 
 class LoginScreen extends GetWidget<LoginController> {
   LoginScreen({Key? key}) : super(key: key);
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String? _errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +62,8 @@ class LoginScreen extends GetWidget<LoginController> {
                       controller: controller.emailController,
                       hintText: "msg_enter_your_e_mail".tr,
                       textInputType: TextInputType.emailAddress,
+                      onFieldSubmitted: (_) =>
+                          _formKey.currentState?.validate(),
                       prefix: Container(
                         margin: EdgeInsets.fromLTRB(15.h, 5.v, 18.h, 1.v),
                         child: SvgPicture.asset(
@@ -71,13 +74,6 @@ class LoginScreen extends GetWidget<LoginController> {
                       ),
                       prefixConstraints: BoxConstraints(maxHeight: 50.v),
                       textStyle: TextStyle(color: Colors.black),
-                      validator: (value) {
-                        if (value == null ||
-                            (!isValidEmail(value, isRequired: true))) {
-                          return "err_msg_please_enter_valid_email".tr;
-                        }
-                        return null;
-                      },
                     ),
                     SizedBox(height: 2.v),
                     Align(
@@ -117,13 +113,6 @@ class LoginScreen extends GetWidget<LoginController> {
                             ),
                           ),
                           suffixConstraints: BoxConstraints(maxHeight: 50.v),
-                          validator: (value) {
-                            if (value == null ||
-                                (!isValidPassword(value, isRequired: true))) {
-                              return "err_msg_please_enter_valid_password".tr;
-                            }
-                            return null;
-                          },
                         )),
                     SizedBox(height: 5.v),
                     Align(
@@ -140,7 +129,6 @@ class LoginScreen extends GetWidget<LoginController> {
                     CustomElevatedButton(
                       text: "lbl_sign_in".tr,
                       onPressed: () {
-                        // Handle Sign In
                         signInWithEmailAndPassword();
                       },
                     ),
@@ -187,56 +175,68 @@ class LoginScreen extends GetWidget<LoginController> {
   }
 
   Future<void> signInWithEmailAndPassword() async {
+    // Reset error message
+    _errorMessage = null;
+
     final email = controller.emailController.text.trim();
     final password = controller.passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      // Handle the case where email or password is empty
-      print("Email or password is empty");
-      // You can display a snackbar or show an error message here
+      _errorMessage = "Email or password is empty";
+      _showErrorSnackbar();
       return;
     }
 
     if (_formKey.currentState!.validate()) {
       try {
-        print("Attempting to sign in with email: $email");
-
-        UserCredential? userCredential =
+        UserCredential userCredential =
             await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
 
-        if (userCredential != null && userCredential.user != null) {
-          User user = userCredential.user!;
+        User user = userCredential.user!;
 
-          // Check if user's email is verified
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
 
-          // User is verified, proceed with the user details
+        if (userDoc.exists) {
+          // User is verified and exists in the "users" collection
           print("Password: $password");
-          print("User ID: ${user.uid}");
           print("Email: ${user.email}");
-          try {
-            Get.offNamed(AppRoutes.homeOnboardingScreen);
-          } catch (e) {
-            print("Exception during navigation: $e");
-          }
-
-          // Navigate to the home page
+          Get.offNamed(AppRoutes.homeOnboardingScreen);
+          return;
         } else {
-          // Handle the case where the userCredential or user is null
-          print("Authentication failed");
-          // You can display a snackbar or show an error message here
+          _errorMessage = "Wrong email or password";
+          _showErrorSnackbar();
+          return;
         }
       } on FirebaseAuthException catch (e) {
-        // Handle specific FirebaseAuthException
-        print("Firebase Auth Exception: ${e.message}");
-        // You can display a snackbar or show an error message here
+        _errorMessage = "Wrong email or password";
+        _showErrorSnackbar();
+        return;
       } catch (e) {
-        // Handle other errors
-        print("Login Error: $e");
-        // You can display a snackbar or show an error message here
+        _errorMessage = "Wrong email or password";
       }
+    }
+
+    _errorMessage = "Wrong email or password";
+    _showErrorSnackbar();
+  }
+
+  void _showErrorSnackbar() {
+    if (_errorMessage != null) {
+      Get.snackbar(
+        "Error",
+        _errorMessage!,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: Duration(seconds: 3),
+        margin: EdgeInsets.only(bottom: 10.v, left: 10.h, right: 10.h),
+      );
     }
   }
 }

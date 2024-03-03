@@ -234,13 +234,57 @@ class RegisterScreen extends GetWidget<RegisterController> {
               'fullName': controller.fullNameController.text.trim(),
             });
 
+            // Show success message in UI
+            showSuccessMessage("Registration successful");
+
             // Navigate to the next screen or perform other actions
           } catch (e) {
-            print("Error during registration: $e");
+            String errorMessage;
+            if (e is FirebaseAuthException) {
+              switch (e.code) {
+                case 'email-already-in-use':
+                  errorMessage = "The email address is already in use.";
+                  break;
+                case 'invalid-email':
+                  errorMessage = "The email address is invalid.";
+                  break;
+                case 'weak-password':
+                  errorMessage = "The password is too weak.";
+                  break;
+                default:
+                  errorMessage = "please fill in the details";
+              }
+            } else {
+              errorMessage = "An unexpected error occurred.";
+            }
+
+            print(errorMessage);
+
+            // Show error message in Snackbar
+            showErrorSnackbar(errorMessage);
           }
         }
       },
     );
+  }
+
+  void showErrorSnackbar(String errorMessage) {
+    Get.snackbar(
+      "Error",
+      errorMessage,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+      duration: Duration(seconds: 2),
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
+
+  void showSuccessMessage(String message) {
+    Get.snackbar("Success", message,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        duration: Duration(seconds: 3),
+        snackPosition: SnackPosition.BOTTOM);
   }
 
   Widget _buildFullName() {
@@ -259,12 +303,6 @@ class RegisterScreen extends GetWidget<RegisterController> {
       ),
       prefixConstraints: BoxConstraints(maxHeight: 70.h, maxWidth: 70.v),
       textStyle: TextStyle(color: Colors.black),
-      validator: (value) {
-        if (!isText(value)) {
-          return "err_msg_please_enter_valid_text".tr;
-        }
-        return null;
-      },
     );
   }
 
@@ -320,12 +358,6 @@ class RegisterScreen extends GetWidget<RegisterController> {
         ),
         prefixConstraints: BoxConstraints(maxHeight: 50.v),
         textStyle: TextStyle(color: Colors.black),
-        validator: (value) {
-          if (value == null || (!isValidEmail(value, isRequired: true))) {
-            return "err_msg_please_enter_valid_email".tr;
-          }
-          return null;
-        },
       ),
     );
   }
@@ -365,12 +397,6 @@ class RegisterScreen extends GetWidget<RegisterController> {
             ),
           ),
           suffixConstraints: BoxConstraints(maxHeight: 50.v),
-          validator: (value) {
-            if (value == null || (!isValidPassword(value, isRequired: true))) {
-              return "err_msg_please_enter_valid_password".tr;
-            }
-            return null;
-          },
         ),
       ),
     );
@@ -411,12 +437,6 @@ class RegisterScreen extends GetWidget<RegisterController> {
             ),
           ),
           suffixConstraints: BoxConstraints(maxHeight: 50.v),
-          validator: (value) {
-            if (value == null || (!isValidPassword(value, isRequired: true))) {
-              return "err_msg_please_enter_valid_password".tr;
-            }
-            return null;
-          },
         ),
       ),
     );
