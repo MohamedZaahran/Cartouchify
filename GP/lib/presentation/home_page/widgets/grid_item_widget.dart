@@ -37,7 +37,7 @@ class GridItemWidget extends StatelessWidget {
               () => CustomImageView(
                 imagePath: gridItemModelObj.nameGeneratorImage!.value,
                 height: 100.v,
-                width: 154.h,
+                width: 147.h,
                 radius: BorderRadius.vertical(
                   top: Radius.circular(20.h),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:hierosecret/core/app_export.dart';
 import 'package:hierosecret/widgets/app_bar/appbar_subtitle_one.dart';
 import 'package:hierosecret/widgets/app_bar/appbar_trailing_iconbutton.dart';
@@ -15,11 +16,15 @@ import 'models/grid_item_model.dart';
 import 'models/home_model.dart';
 import 'models/slider_item_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
-  HomeController controller = Get.put(HomeController(HomeModel().obs));
+  final HomeController controller =
+      Get.put(HomeController.withModel(HomeModel().obs));
+
+  final CarouselController _carouselController = CarouselController();
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +94,12 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: _buildFiftyNine(),
+        bottomNavigationBar: CustomBottomAppBar(
+          onChanged: (type) {
+            // Handle navigation logic here
+            Get.toNamed(getCurrentRoute(type));
+          },
+        ),
         floatingActionButton: CustomFloatingButton(
           height: 83,
           width: 83,
@@ -123,31 +133,65 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildSlider() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 6.h),
-      child: Obx(
-        () => CarouselSlider.builder(
-          options: CarouselOptions(
-            height: 153,
-            initialPage: 0,
-            autoPlay: true,
-            viewportFraction: 1.0,
-            enableInfiniteScroll: false,
-            scrollDirection: Axis.horizontal,
-            onPageChanged: (index, reason) {
-              controller.sliderIndex.value = index;
-            },
-          ),
-          itemCount: controller.homeModelObj.value.sliderItemList.value.length,
-          itemBuilder: (context, index, realIndex) {
-            SliderItemModel model =
-                controller.homeModelObj.value.sliderItemList.value[index];
-            return SliderItemWidget(model);
-          },
-        ),
-      ),
+  // Insert the initial photo at the beginning of the sliderItemList
+  var sliderItemList = controller.homeModelObj.value.sliderItemList;
+  if (sliderItemList != null) {
+    sliderItemList.value.insert(
+      0,
+      SliderItemModel(imagePath: ImageConstant.imgTut2023Paid),
     );
   }
+
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: 6.h),
+    child: Obx(
+      () => Stack(
+        children: [
+          CarouselSlider.builder(
+            carouselController: _carouselController,
+            options: CarouselOptions(
+              height: 153,
+              initialPage: controller.sliderIndex.value,
+              enableInfiniteScroll: true,
+              onPageChanged: (index, reason) {
+                controller.sliderIndex.value = index;
+              },
+              viewportFraction: 1.0, // Set viewportFraction to 1.0
+            ),
+            itemCount: sliderItemList.value.length, // Use sliderItemList.length as itemCount
+            itemBuilder: (context, index, realIndex) {
+              SliderItemModel model = sliderItemList.value[index];
+              return SliderItemWidget(model);
+            },
+          ),
+          Positioned(
+            left: 10.0,
+            top: 0.0,
+            bottom: 0.0,
+            child: IconButton(
+              onPressed: () {
+                _carouselController.previousPage();
+              },
+              icon: Icon(Icons.arrow_back_ios),
+            ),
+          ),
+          Positioned(
+            right: 10.0,
+            top: 0.0,
+            bottom: 0.0,
+            child: IconButton(
+              onPressed: () {
+                _carouselController.nextPage();
+              },
+              icon: Icon(Icons.arrow_forward_ios),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 
   Widget _buildGrid() {
     return Obx(
@@ -170,14 +214,6 @@ class HomePage extends StatelessWidget {
           });
         },
       ),
-    );
-  }
-
-  Widget _buildFiftyNine() {
-    return CustomBottomAppBar(
-      onChanged: (BottomBarEnum type) {
-        Get.toNamed(getCurrentRoute(type));
-      },
     );
   }
 

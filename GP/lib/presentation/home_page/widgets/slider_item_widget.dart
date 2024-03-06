@@ -33,7 +33,7 @@ class SliderItemWidget extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   CustomImageView(
-                    imagePath: ImageConstant.imgTut2023Paid,
+                    imagePath: sliderItemModelObj.imagePath,
                     height: 152.v,
                     width: 320.h,
                     radius: BorderRadius.circular(

@@ -2,6 +2,17 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hierosecret/presentation/register_screen/controller/register_controller.dart';
 import 'package:hierosecret/presentation/register_screen/register_screen.dart';
 
+import 'package:hierosecret/presentation/home_page/controller/home_controller.dart';
+import 'package:hierosecret/presentation/home_page/home_page.dart';
+
+import 'package:hierosecret/presentation/home_one_screen/controller/home_one_controller.dart';
+import 'package:hierosecret/presentation/home_one_screen/home_one_screen.dart';
+
+import 'package:hierosecret/presentation/home_container_screen/controller/home_container_controller.dart';
+import 'package:hierosecret/presentation/home_container_screen/home_container_screen.dart';
+
+import 'package:hierosecret/presentation/app_navigation_screen/app_navigation_screen.dart';
+
 import 'controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hierosecret/core/app_export.dart';
@@ -14,10 +25,7 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
   @override
   Widget build(BuildContext context) {
     // Check if the RegisterController is not null before using it
-    if (Get.find<RegisterController>() == null) {
-      Get.put(
-          RegisterController()); // Initialize the controller if not already done
-    }
+    
 
     return SafeArea(
       child: Scaffold(
@@ -25,7 +33,7 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
         body: GestureDetector(
           onTap: () {
             // Navigate to RegisterScreen when tapped
-            Get.to(RegisterScreen());
+            Get.to(HomePage());
           },
           child: Container(
             width: SizeUtils.width,

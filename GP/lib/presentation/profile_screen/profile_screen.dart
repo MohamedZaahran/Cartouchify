@@ -91,7 +91,12 @@ class ProfileScreen extends GetWidget<ProfileController> {
             ),
           ),
         ),
-        bottomNavigationBar: _buildNavBarBottomAppBar(),
+        bottomNavigationBar: CustomBottomAppBar(
+          onChanged: (type) {
+            // Handle navigation logic here
+            Get.toNamed(getCurrentRoute(type));
+          },
+          ),
         floatingActionButton: CustomFloatingButton(
           height: 83,
           width: 83,
@@ -344,7 +349,6 @@ class ProfileScreen extends GetWidget<ProfileController> {
 
   ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {
-    print(type);
     switch (type) {
       case BottomBarEnum.Home:
         return AppRoutes.homePage;

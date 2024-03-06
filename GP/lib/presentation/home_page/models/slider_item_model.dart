@@ -1,10 +1,9 @@
 import '../../../core/app_export.dart';
 
-/// This class is used in the [slider_item_widget] screen.
+/// This class represents an item in the slider.
 class SliderItemModel {
-  SliderItemModel({this.id}) {
-    id = id ?? Rx("");
-  }
+  final String imagePath; // Add this field for the image path
 
-  Rx<String>? id;
+  SliderItemModel(
+      {required this.imagePath}); // Constructor with required image path
 }

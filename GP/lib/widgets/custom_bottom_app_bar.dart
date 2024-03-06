@@ -1,33 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:hierosecret/core/app_export.dart';
 
-class CustomBottomAppBar extends StatelessWidget {
-  CustomBottomAppBar({
-    Key? key,
-    this.onChanged,
-  }) : super(
-          key: key,
-        );
+class CustomBottomAppBar extends StatefulWidget {
+  final Function(BottomBarEnum)? onChanged;
 
-  RxList<BottomMenuModel> bottomMenuList = [
-    BottomMenuModel(
+  const CustomBottomAppBar({Key? key, this.onChanged}) : super(key: key);
+
+  @override
+  _CustomBottomAppBarState createState() => _CustomBottomAppBarState();
+}
+
+class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
+  late bool home;
+  late RxList<BottomMenuModel> bottomMenuList;
+
+  @override
+  void initState() {
+    super.initState();
+    home = true;
+    bottomMenuList = [
+      BottomMenuModel(
         icon: ImageConstant.imgNounHome6503544,
         activeIcon: ImageConstant.imgNounHome6503544,
         title: "lbl_home".tr,
         type: BottomBarEnum.Home,
-        isSelected: true),
-    BottomMenuModel(
-      icon: ImageConstant.imgNounPharoh327820,
-      activeIcon: ImageConstant.imgNounPharoh327820,
-      title: "lbl_profile".tr,
-      type: BottomBarEnum.Profile,
-    )
-  ].obs;
+      ),
+      BottomMenuModel(
+        icon: ImageConstant.imgNounPharoh327820,
+        activeIcon: ImageConstant.imgNounPharoh327820,
+        title: "lbl_profile".tr,
+        type: BottomBarEnum.Profile,
+      ),
+    ].obs;
+  }
 
-  Function(BottomBarEnum)? onChanged;
+  void setSelected(BottomBarEnum type) {
+    setState(() {
+      home = type == BottomBarEnum.Home;
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomBottomAppBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Update the home state based on the onChanged callback
+    home = widget.onChanged == null ||
+        widget.onChanged!(BottomBarEnum.Home) == BottomBarEnum.Home;
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("HOME = $home");
+    bottomMenuList[0].isSelected = !home;
+    bottomMenuList[1].isSelected = home;
+    bottomMenuList.refresh();
+
     return Obx(
       () => ClipRRect(
         borderRadius: BorderRadius.only(
@@ -48,11 +75,8 @@ class CustomBottomAppBar extends StatelessWidget {
                 (index) {
                   return InkWell(
                     onTap: () {
-                      for (var element in bottomMenuList) {
-                        element.isSelected = false;
-                      }
-                      bottomMenuList[index].isSelected = true;
-                      onChanged?.call(bottomMenuList[index].type);
+                      setSelected(bottomMenuList[index].type);
+                      widget.onChanged?.call(bottomMenuList[index].type);
                       bottomMenuList.refresh();
                     },
                     child: bottomMenuList[index].isSelected

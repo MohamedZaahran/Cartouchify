@@ -42,6 +42,8 @@ import 'package:hierosecret/presentation/scanned_screen/scanned_screen.dart';
 import 'package:hierosecret/presentation/scanned_screen/binding/scanned_binding.dart';
 import 'package:hierosecret/presentation/home_one_screen/home_one_screen.dart';
 import 'package:hierosecret/presentation/home_one_screen/binding/home_one_binding.dart';
+import 'package:hierosecret/presentation/home_page/home_page.dart';
+import 'package:hierosecret/presentation/home_page/binding/home_page_binding.dart';
 import 'package:hierosecret/presentation/app_navigation_screen/app_navigation_screen.dart';
 import 'package:hierosecret/presentation/app_navigation_screen/binding/app_navigation_binding.dart';
 import 'package:get/get.dart';
@@ -192,6 +194,13 @@ class AppRoutes {
       page: () => HomeContainerScreen(),
       bindings: [
         HomeContainerBinding(),
+      ],
+    ),
+    GetPage(
+      name: homePage,
+      page: () => HomePage(),
+      bindings: [
+        HomePageBinding(),
       ],
     ),
     GetPage(

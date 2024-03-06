@@ -6,9 +6,9 @@ import 'grid_item_model.dart';
 /// and is typically used to hold data that is passed between different parts of the application.
 class HomeModel {
   Rx<List<SliderItemModel>> sliderItemList =
-      Rx(List.generate(1, (index) => SliderItemModel()));
+      Rx<List<SliderItemModel>>(List.generate(1, (index) => SliderItemModel(imagePath: ImageConstant.imgTut2023Paid)));
 
-  Rx<List<GridItemModel>> gridItemList = Rx([
+  Rx<List<GridItemModel>> gridItemList = Rx<List<GridItemModel>>([
     GridItemModel(
         nameGeneratorImage: ImageConstant.imgEgyptianHierog.obs,
         nameGeneratorText: "Name Generator".obs),
