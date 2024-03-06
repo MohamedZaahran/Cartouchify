@@ -135,13 +135,6 @@ class HomePage extends StatelessWidget {
   Widget _buildSlider() {
     // Insert the initial photo at the beginning of the sliderItemList
     var sliderItemList = controller.homeModelObj.value.sliderItemList;
-    if (sliderItemList != null) {
-      sliderItemList.value.insert(
-        0,
-        SliderItemModel(imagePath: ImageConstant.imgTut2023Paid),
-      );
-    }
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 6.h),
       child: Obx(
