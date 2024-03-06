@@ -133,65 +133,67 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildSlider() {
-  // Insert the initial photo at the beginning of the sliderItemList
-  var sliderItemList = controller.homeModelObj.value.sliderItemList;
-  if (sliderItemList != null) {
-    sliderItemList.value.insert(
-      0,
-      SliderItemModel(imagePath: ImageConstant.imgTut2023Paid),
+    // Insert the initial photo at the beginning of the sliderItemList
+    var sliderItemList = controller.homeModelObj.value.sliderItemList;
+    if (sliderItemList != null) {
+      sliderItemList.value.insert(
+        0,
+        SliderItemModel(imagePath: ImageConstant.imgTut2023Paid),
+      );
+    }
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 6.h),
+      child: Obx(
+        () => Stack(
+          children: [
+            CarouselSlider.builder(
+              carouselController: _carouselController,
+              options: CarouselOptions(
+                height: 153,
+                initialPage: controller.sliderIndex.value,
+                enableInfiniteScroll: true,
+                onPageChanged: (index, reason) {
+                  controller.sliderIndex.value = index;
+                },
+                viewportFraction: 1.0, // Set viewportFraction to 1.0
+              ),
+              itemCount: sliderItemList
+                  .value.length, // Use sliderItemList.length as itemCount
+              itemBuilder: (context, index, realIndex) {
+                SliderItemModel model = sliderItemList.value[index];
+                return SliderItemWidget(model);
+              },
+            ),
+            Positioned(
+              left: 10.0,
+              top: 0.0,
+              bottom: 0.0,
+              child: IconButton(
+                onPressed: () {
+                  _carouselController.previousPage();
+                },
+                icon: Icon(Icons.arrow_back_ios),
+                color: theme.colorScheme.primaryContainer,
+              ),
+            ),
+            Positioned(
+              right: 10.0,
+              top: 0.0,
+              bottom: 0.0,
+              child: IconButton(
+                onPressed: () {
+                  _carouselController.nextPage();
+                },
+                icon: Icon(Icons.arrow_forward_ios),
+                color: theme.colorScheme.primaryContainer,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
-
-  return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 6.h),
-    child: Obx(
-      () => Stack(
-        children: [
-          CarouselSlider.builder(
-            carouselController: _carouselController,
-            options: CarouselOptions(
-              height: 153,
-              initialPage: controller.sliderIndex.value,
-              enableInfiniteScroll: true,
-              onPageChanged: (index, reason) {
-                controller.sliderIndex.value = index;
-              },
-              viewportFraction: 1.0, // Set viewportFraction to 1.0
-            ),
-            itemCount: sliderItemList.value.length, // Use sliderItemList.length as itemCount
-            itemBuilder: (context, index, realIndex) {
-              SliderItemModel model = sliderItemList.value[index];
-              return SliderItemWidget(model);
-            },
-          ),
-          Positioned(
-            left: 10.0,
-            top: 0.0,
-            bottom: 0.0,
-            child: IconButton(
-              onPressed: () {
-                _carouselController.previousPage();
-              },
-              icon: Icon(Icons.arrow_back_ios),
-            ),
-          ),
-          Positioned(
-            right: 10.0,
-            top: 0.0,
-            bottom: 0.0,
-            child: IconButton(
-              onPressed: () {
-                _carouselController.nextPage();
-              },
-              icon: Icon(Icons.arrow_forward_ios),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
 
   Widget _buildGrid() {
     return Obx(

@@ -78,7 +78,6 @@ class SliderItemWidget extends StatelessWidget {
               height: 150.v,
               width: 320.h,
               decoration: BoxDecoration(
-                color: theme.colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(
                   20.h,
                 ),
