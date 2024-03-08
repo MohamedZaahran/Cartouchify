@@ -47,7 +47,7 @@ class GridItemWidget extends StatelessWidget {
             Obx(
               () => Text(
                 gridItemModelObj.nameGeneratorText!.value,
-                style: theme.textTheme.titleMedium,
+                style: theme.textTheme.titleSmall,
               ),
             ),
             SizedBox(height: 13.v),

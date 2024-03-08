@@ -45,10 +45,10 @@ class NameGeneratorScreen extends StatelessWidget {
                           width: 290.h,
                           margin: EdgeInsets.only(left: 9.h, right: 51.h),
                           child: Text(
-                            "Enter name you wish to generate".tr,
+                            "Enter name to generate".tr,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.titleLarge,
+                            style: theme.textTheme.titleMedium,
                           ),
                         ),
                         SizedBox(height: 13.v),
@@ -73,7 +73,8 @@ class NameGeneratorScreen extends StatelessWidget {
                                 Align(
                                   alignment: Alignment.topLeft,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 4.h),
+                                    padding:
+                                        EdgeInsets.only(left: 3.h, bottom: 5),
                                     child: Text("lbl_name".tr,
                                         style: theme.textTheme.titleSmall),
                                   ),

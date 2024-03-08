@@ -54,7 +54,7 @@ class RegisterScreen extends GetWidget<RegisterController> {
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Text(
-                              "msg_create_an_account".tr,
+                              "Create Account".tr,
                               style: theme.textTheme.headlineMedium,
                             ),
                           ),

@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
         extendBodyBehindAppBar: true,
         appBar: _buildAppBar(),
         body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
           child: Container(
             width: SizeUtils.width,
             height: SizeUtils.height,
