@@ -20,7 +20,21 @@ class RegisterController extends GetxController {
   Rx<bool> isShowPassword = true.obs;
 
   Rx<bool> isShowPassword1 = true.obs;
+  void toggleShowPassword() {
+    // Toggle the value of isShowPassword
+    isShowPassword.value = !isShowPassword.value;
+  }
 
+  void toggleShowPassword1() {
+    // Toggle the value of isShowPassword
+    isShowPassword1.value = !isShowPassword1.value;
+  }
+
+  String get eyeImage =>
+      isShowPassword.value ? ImageConstant.closedEye : ImageConstant.imgPasseye;
+  String get eyeImage1 => isShowPassword1.value
+      ? ImageConstant.closedEye
+      : ImageConstant.imgPasseye;
   @override
   void onClose() {
     super.onClose();

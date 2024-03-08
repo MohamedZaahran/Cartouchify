@@ -8,13 +8,19 @@ import 'package:flutter/material.dart';
 /// current loginModelObj
 class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
-
   TextEditingController passwordController = TextEditingController();
 
   Rx<LoginModel> loginModelObj = LoginModel().obs;
-
   Rx<bool> isShowPassword = true.obs;
   Rx<bool> isError = false.obs;
+
+  void toggleShowPassword() {
+    // Toggle the value of isShowPassword
+    isShowPassword.value = !isShowPassword.value;
+  }
+
+  String get eyeImage =>
+      isShowPassword.value ? ImageConstant.closedEye : ImageConstant.imgPasseye;
 
   @override
   void onClose() {

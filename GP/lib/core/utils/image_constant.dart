@@ -2,6 +2,9 @@ class ImageConstant {
   // Image folder path
   static String imagePath = 'assets/images';
 
+  static String closedEye = '$imagePath/closed.svg';
+  static String ScanImage = '$imagePath/scan.png';
+
   // OnBoarding images
   static String imgNounEgypt22733 = '$imagePath/img_noun_egypt_22733.svg';
 

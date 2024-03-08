@@ -198,7 +198,8 @@ class AppRoutes {
     ),
     GetPage(
       name: homePage,
-      page: () => HomePage(),
+      page: () =>
+          HomePage(fullName: "Default Full Name", userID: "Default User ID"),
       bindings: [
         HomePageBinding(),
       ],

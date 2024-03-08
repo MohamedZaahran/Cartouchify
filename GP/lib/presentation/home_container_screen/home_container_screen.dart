@@ -65,7 +65,8 @@ class HomeContainerScreen extends GetWidget<HomeContainerController> {
   Widget getCurrentPage(String currentRoute) {
     switch (currentRoute) {
       case AppRoutes.homePage:
-        return HomePage();
+        return HomePage(
+            fullName: "Default Full Name", userID: "Default User ID");
       default:
         return DefaultWidget();
     }

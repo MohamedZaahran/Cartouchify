@@ -25,7 +25,6 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
   @override
   Widget build(BuildContext context) {
     // Check if the RegisterController is not null before using it
-    
 
     return SafeArea(
       child: Scaffold(
@@ -33,7 +32,7 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
         body: GestureDetector(
           onTap: () {
             // Navigate to RegisterScreen when tapped
-            Get.to(HomePage());
+            Get.to(RegisterScreen());
           },
           child: Container(
             width: SizeUtils.width,

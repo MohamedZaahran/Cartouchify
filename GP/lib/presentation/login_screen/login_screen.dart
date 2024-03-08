@@ -99,16 +99,16 @@ class LoginScreen extends GetWidget<LoginController> {
                           textStyle: TextStyle(color: Colors.black),
                           suffix: InkWell(
                             onTap: () {
-                              controller.isShowPassword.value =
-                                  !controller.isShowPassword.value;
+                              controller.toggleShowPassword();
+                              (context as Element).markNeedsBuild();
                             },
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 9.h),
-                              child: SvgPicture.asset(
-                                ImageConstant.imgPasseye,
-                                height: 37.v,
-                                width: 30.h,
-                              ),
+                              child: Obx(() => SvgPicture.asset(
+                                    controller.eyeImage,
+                                    height: 37.v,
+                                    width: 30.h,
+                                  )),
                             ),
                           ),
                           suffixConstraints: BoxConstraints(maxHeight: 50.v),
@@ -203,9 +203,13 @@ class LoginScreen extends GetWidget<LoginController> {
 
         if (userDoc.exists) {
           // User is verified and exists in the "users" collection
-          print("Password: $password");
-          print("Email: ${user.email}");
-          Get.offNamed(AppRoutes.homeOnboardingScreen);
+          String fullName = userDoc['fullName'];
+          String userID = user.uid;
+          ; // Assuming the field in Firestore is named 'fullName'
+
+          // Pass the full name to the next screen
+          Get.offNamed(AppRoutes.homeOnboardingScreen,
+              arguments: {"fullName": fullName, "userID": userID});
           return;
         } else {
           _errorMessage = "Wrong email or password";

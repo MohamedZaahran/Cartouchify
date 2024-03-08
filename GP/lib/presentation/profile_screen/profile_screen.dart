@@ -8,10 +8,22 @@ import 'package:hierosecret/widgets/custom_outlined_button.dart';
 
 // ignore_for_file: must_be_immutable
 class ProfileScreen extends GetWidget<ProfileController> {
-  const ProfileScreen({Key? key})
-      : super(
-          key: key,
-        );
+  Map<String, dynamic>? args;
+  String fullName;
+  String userID;
+
+  ProfileScreen({Key? key})
+      : fullName = '',
+        userID = '',
+        super(key: key) {
+    GetArguments();
+  }
+
+  void GetArguments() {
+    args = Get.arguments;
+    fullName = args!['fullName'];
+    userID = args!['userID'];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +106,12 @@ class ProfileScreen extends GetWidget<ProfileController> {
         bottomNavigationBar: CustomBottomAppBar(
           onChanged: (type) {
             // Handle navigation logic here
-            Get.toNamed(getCurrentRoute(type));
+            Get.toNamed(getCurrentRoute(type), arguments: {
+              fullName: args!['fullName'],
+              userID: args!['userID']
+            });
           },
-          ),
+        ),
         floatingActionButton: CustomFloatingButton(
           height: 83,
           width: 83,

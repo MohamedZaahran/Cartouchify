@@ -17,13 +17,23 @@ import 'models/home_model.dart';
 import 'models/slider_item_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  final String fullName;
+  final String userID;
 
+  HomePage({Key? key, required this.fullName, required this.userID})
+      : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final HomeController controller =
       Get.put(HomeController.withModel(HomeModel().obs));
-
   final CarouselController _carouselController = CarouselController();
 
   @override
@@ -96,15 +106,21 @@ class HomePage extends StatelessWidget {
         ),
         bottomNavigationBar: CustomBottomAppBar(
           onChanged: (type) {
-            // Handle navigation logic here
-            Get.toNamed(getCurrentRoute(type));
+            String route = getCurrentRoute(type);
+
+            Get.toNamed(route, arguments: {
+              'fullName': widget.fullName,
+              'userID': widget.userID
+            });
           },
         ),
         floatingActionButton: CustomFloatingButton(
           height: 83,
           width: 83,
-          child: Icon(
-            Icons.add,
+          child: Image.asset(
+            ImageConstant.ScanImage, // Provide the path to your image
+            height: 40, // Set the height of the image
+            width: 40, // Set the width of the image
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -116,24 +132,47 @@ class HomePage extends StatelessWidget {
     return CustomAppBar(
       height: 100.v,
       title: AppbarSubtitleOne(
-        text: "lbl_hi_ahmed".tr,
+        text: "Hi, ${widget.fullName}",
         margin: EdgeInsets.only(left: 26.h),
       ),
       actions: [
-        AppbarTrailingImage(
-          imagePath: ImageConstant.imgNotificationBellNew,
-          margin: EdgeInsets.fromLTRB(22.h, 18.v, 3.h, 6.v),
-        ),
-        AppbarTrailingIconbutton(
-          imagePath: ImageConstant.imgSettingsPrimary,
-          margin: EdgeInsets.only(left: 14.h, top: 3.v, right: 25.h),
+        StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(widget.userID)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Container();
+            }
+
+            var userData = snapshot.data!.data() as Map<String, dynamic>?;
+
+            return Container(
+              margin: EdgeInsets.fromLTRB(5.h, 22.v, 22.h, 6.v),
+              child: ClipOval(
+                child: Container(
+                  width: 55.v,
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        userData?['img'] ?? '',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ],
     );
   }
 
   Widget _buildSlider() {
-    // Insert the initial photo at the beginning of the sliderItemList
     var sliderItemList = controller.homeModelObj.value.sliderItemList;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 6.h),
@@ -149,10 +188,9 @@ class HomePage extends StatelessWidget {
                 onPageChanged: (index, reason) {
                   controller.sliderIndex.value = index;
                 },
-                viewportFraction: 1.0, // Set viewportFraction to 1.0
+                viewportFraction: 1.0,
               ),
-              itemCount: sliderItemList
-                  .value.length, // Use sliderItemList.length as itemCount
+              itemCount: sliderItemList.value.length,
               itemBuilder: (context, index, realIndex) {
                 SliderItemModel model = sliderItemList.value[index];
                 return SliderItemWidget(model);
@@ -223,10 +261,13 @@ class HomePage extends StatelessWidget {
     }
   }
 
-  Widget getCurrentPage(String currentRoute) {
+  Widget getCurrentPage(String currentRoute, String fullName, String userID) {
     switch (currentRoute) {
       case AppRoutes.homePage:
-        return HomePage();
+        return HomePage(
+          fullName: fullName,
+          userID: userID,
+        );
       default:
         return DefaultWidget();
     }

@@ -236,6 +236,9 @@ class RegisterScreen extends GetWidget<RegisterController> {
 
             // Show success message in UI
             showSuccessMessage("Registration successful");
+            Future.delayed(Duration(seconds: 2), () {
+              Get.toNamed(AppRoutes.loginScreen);
+            });
 
             // Navigate to the next screen or perform other actions
           } catch (e) {
@@ -384,16 +387,15 @@ class RegisterScreen extends GetWidget<RegisterController> {
           textStyle: TextStyle(color: Colors.black),
           suffix: InkWell(
             onTap: () {
-              controller.isShowPassword.value =
-                  !controller.isShowPassword.value;
+              controller.toggleShowPassword();
             },
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 9.h),
-              child: SvgPicture.asset(
-                ImageConstant.imgPasseye,
-                height: 37.v,
-                width: 30.h,
-              ),
+              child: Obx(() => SvgPicture.asset(
+                    controller.eyeImage,
+                    height: 37.v,
+                    width: 30.h,
+                  )),
             ),
           ),
           suffixConstraints: BoxConstraints(maxHeight: 50.v),
@@ -424,16 +426,15 @@ class RegisterScreen extends GetWidget<RegisterController> {
           textStyle: TextStyle(color: Colors.black),
           suffix: InkWell(
             onTap: () {
-              controller.isShowPassword1.value =
-                  !controller.isShowPassword1.value;
+              controller.toggleShowPassword1();
             },
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 9.h),
-              child: SvgPicture.asset(
-                ImageConstant.imgPasseye,
-                height: 37.v,
-                width: 30.h,
-              ),
+              child: Obx(() => SvgPicture.asset(
+                    controller.eyeImage1,
+                    height: 37.v,
+                    width: 30.h,
+                  )),
             ),
           ),
           suffixConstraints: BoxConstraints(maxHeight: 50.v),

@@ -1,20 +1,28 @@
+// HomeOnboardingScreen
 import 'package:flutter_svg/svg.dart';
 import 'package:hierosecret/presentation/home_page/home_page.dart';
-
 import 'controller/home_onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hierosecret/core/app_export.dart';
 import 'package:hierosecret/widgets/custom_elevated_button.dart';
 
-// ignore_for_file: must_be_immutable
 class HomeOnboardingScreen extends GetWidget<HomeOnboardingController> {
-  const HomeOnboardingScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const HomeOnboardingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic>? args = Get.arguments;
+    if (args == null) {
+      // Handle the case when arguments are null
+      return Scaffold(
+        body: Center(
+          child: Text("Missing arguments"),
+        ),
+      );
+    }
+    final String fullName = args["fullName"];
+    final String userID = args["userID"];
+
     return SafeArea(
       child: Scaffold(
         extendBody: true,
@@ -47,7 +55,7 @@ class HomeOnboardingScreen extends GetWidget<HomeOnboardingController> {
                 SizedBox(
                   width: 313.h,
                   child: Text(
-                    "msg_hello_ahmed_welcome".tr,
+                    "Hello $fullName,  Welcome to a journey of discovery! I'm queen Nefertiti, your guide on this adventure to unveil the hidden secrets that await you. Together, we'll navigate through the mysteries and unlock the treasures of knowledge",
                     maxLines: 7,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
@@ -60,7 +68,7 @@ class HomeOnboardingScreen extends GetWidget<HomeOnboardingController> {
                   margin: EdgeInsets.symmetric(horizontal: 6.h),
                   buttonStyle: CustomButtonStyles.fillRed,
                   onPressed: () {
-                    Get.to(() => HomePage());
+                    Get.to(() => HomePage(fullName: fullName, userID: userID));
                   },
                 ),
               ],

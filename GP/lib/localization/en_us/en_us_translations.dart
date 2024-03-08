@@ -24,7 +24,7 @@ final Map<String, String> enUs = {
   // Home OnBoarding Screen
   "lbl_let_s_explore": "Let’s Explore",
   "msg_hello_ahmed_welcome":
-      "Hello Ahmed! Welcome to a journey of discovery! I'm queen Nefertiti, your guide on this adventure to unveil the hidden secrets that await you. Together, we'll navigate through the mysteries and unlock the treasures of knowledge",
+      "Hello Ahmed Welcome to a journey of discovery! I'm queen Nefertiti, your guide on this adventure to unveil the hidden secrets that await you. Together, we'll navigate through the mysteries and unlock the treasures of knowledge",
 
   // Home Screen
   "msg_learn_heiroglyphs": "Learn Heiroglyphs",
