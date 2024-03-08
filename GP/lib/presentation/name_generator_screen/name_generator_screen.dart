@@ -77,7 +77,7 @@ class NameGeneratorScreen extends StatelessWidget {
                                       left: 4.h,
                                     ),
                                     child: Text(
-                                      "lbl_full_name".tr,
+                                      "Name".tr,
                                       style: theme.textTheme.titleSmall,
                                     ),
                                   ),
