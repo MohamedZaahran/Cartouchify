@@ -23,13 +23,24 @@ class ExplorePlacesScreen extends GetWidget<ExplorePlacesController> {
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
-        body: Column(
-          children: [
-            _buildViewStack(),
-            Expanded(
-              child: _buildCardsList(context),
+        body: Container(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.onPrimary,
+            image: DecorationImage(
+              image: AssetImage(
+                ImageConstant.imgOnboarding,
+              ),
+              fit: BoxFit.cover,
             ),
-          ],
+          ),
+          child: Column(
+            children: [
+              _buildViewStack(),
+              Expanded(
+                child: _buildCardsList(context),
+              ),
+            ],
+          ),
         ),
       ),
     );

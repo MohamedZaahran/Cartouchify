@@ -1,6 +1,6 @@
 final Map<String, String> enUs = {
   // OnBoarding Screen
-  "lbl_heirosecrets": "HEIROSECRETS",
+  "lbl_heirosecrets": "CARTOUCHIFY",
 
   // Register(Wrong Inputs) Screen
   "msg_some_input_s_seem": "Some input(s) seem to be empty or wrong  ",
