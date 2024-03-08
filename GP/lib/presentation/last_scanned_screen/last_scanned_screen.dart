@@ -40,28 +40,9 @@ class LastScannedScreen extends GetWidget<LastScannedController> {
               top: 48.v,
               right: 31.h,
             ),
-            child: Obx(
-              () => ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                separatorBuilder: (
-                  context,
-                  index,
-                ) {
-                  return SizedBox(
-                    height: 20.v,
-                  );
-                },
-                itemCount: controller.lastScannedModelObj.value
-                    .cardcomponentItemList.value.length,
-                itemBuilder: (context, index) {
-                  CardcomponentItemModel model = controller.lastScannedModelObj
-                      .value.cardcomponentItemList.value[index];
-                  return CardcomponentItemWidget(
-                    model,
-                  );
-                },
-              ),
+            child: Text(
+              'Coming Soon',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
         ),

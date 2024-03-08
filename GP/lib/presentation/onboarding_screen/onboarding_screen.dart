@@ -59,7 +59,7 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
                   ),
                   SizedBox(height: 26.v),
                   Text(
-                    "lbl_heirosecrets".tr,
+                    "CARTOUCHIFY".tr,
                     style: theme.textTheme.displayMedium,
                   ),
                   SizedBox(height: 5.v),

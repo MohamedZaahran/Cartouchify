@@ -144,21 +144,20 @@ class _LearnHeiroglyphsScreenState extends State<LearnHeiroglyphsScreen> {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      backgroundColor: theme.colorScheme.primary,
+    return CustomAppBar(
+      leadingWidth: 53.h,
       leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back,
-          color: Colors.white,
-        ),
+        icon: Icon(Icons.arrow_back, color: Colors.white),
         onPressed: () {
-          Navigator.of(context).pop();
+          Get.back();
         },
       ),
       centerTitle: true,
       title: AppbarTitle(
-        text: "Heiroglyphs".tr,
+        text: "Learn Heiroglyphs".tr,
+        margin: EdgeInsets.only(top: 48.v),
       ),
+      styleType: Style.bgFill,
     );
   }
 

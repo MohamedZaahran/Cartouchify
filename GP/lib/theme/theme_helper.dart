@@ -116,7 +116,7 @@ class TextThemes {
         ),
         displayMedium: TextStyle(
           color: colorScheme.primary,
-          fontSize: 48.fSize,
+          fontSize: 43.fSize,
           fontFamily: 'Inika',
           fontWeight: FontWeight.w700,
         ),

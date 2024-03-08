@@ -45,6 +45,7 @@ class PlaceScreen extends GetWidget<PlaceController> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _buildNineStack(imageUrl),
+                  SizedBox(height: 10),
                   _buildEightyEightRow(name, rating),
                   SizedBox(height: 5),
                   Align(

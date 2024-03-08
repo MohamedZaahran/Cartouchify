@@ -48,17 +48,16 @@ class NameGeneratorScreen extends StatelessWidget {
                             "Enter name to generate".tr,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.titleMedium,
+                            style: theme.textTheme.titleLarge,
                           ),
                         ),
-                        SizedBox(height: 13.v),
+                        SizedBox(height: 10.v),
                         Align(
                           alignment: Alignment.center,
                           child: SizedBox(
-                            height: 68.v,
+                            height: 75.v,
                             width: 301.h,
                             child: Stack(
-                              alignment: Alignment.topLeft,
                               children: [
                                 CustomTextFormField(
                                   width: 301.h,
@@ -70,20 +69,24 @@ class NameGeneratorScreen extends StatelessWidget {
                                   contentPadding: EdgeInsets.symmetric(
                                       horizontal: 28.h, vertical: 14.v),
                                 ),
+                                SizedBox(height: 10.v),
                                 Align(
                                   alignment: Alignment.topLeft,
                                   child: Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 3.h, bottom: 5),
-                                    child: Text("lbl_name".tr,
-                                        style: theme.textTheme.titleSmall),
+                                    padding: EdgeInsets.only(
+                                      left: 4.h,
+                                    ),
+                                    child: Text(
+                                      "lbl_full_name".tr,
+                                      style: theme.textTheme.titleSmall,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(height: 15.v),
+                        SizedBox(height: 10.v),
                         CustomOutlinedButton(
                           width: 213.h,
                           text: "lbl_generate".tr,

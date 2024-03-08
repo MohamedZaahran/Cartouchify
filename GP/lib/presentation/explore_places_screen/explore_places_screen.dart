@@ -49,7 +49,7 @@ class ExplorePlacesScreen extends GetWidget<ExplorePlacesController> {
   Widget _buildViewStack() {
     print("_buildViewStack called");
     return SizedBox(
-      height: 93.v,
+      height: 90.v,
       width: double.maxFinite,
       child: Stack(
         alignment: Alignment.bottomLeft,
@@ -99,7 +99,7 @@ class ExplorePlacesScreen extends GetWidget<ExplorePlacesController> {
   Widget _buildCardsList(BuildContext context) {
     print("_buildCardsList called");
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 31.h),
+      padding: EdgeInsets.symmetric(horizontal: 31.h, vertical: 15.v),
       child: FutureBuilder(
         future: controller.fetchPlaces(),
         builder: (context, snapshot) {

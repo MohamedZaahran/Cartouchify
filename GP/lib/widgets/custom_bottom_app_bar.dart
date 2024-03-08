@@ -22,13 +22,13 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
       BottomMenuModel(
         icon: ImageConstant.imgNounHome6503544,
         activeIcon: ImageConstant.imgNounHome6503544,
-        title: "lbl_home".tr,
+        title: "Home".tr,
         type: BottomBarEnum.Home,
       ),
       BottomMenuModel(
         icon: ImageConstant.imgNounPharoh327820,
         activeIcon: ImageConstant.imgNounPharoh327820,
-        title: "lbl_profile".tr,
+        title: "Profile".tr,
         type: BottomBarEnum.Profile,
       ),
     ].obs;
@@ -189,7 +189,7 @@ class DefaultWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(15),
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,7 +198,7 @@ class DefaultWidget extends StatelessWidget {
             Text(
               'Please replace the respective Widget here',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
               ),
             ),
           ],
