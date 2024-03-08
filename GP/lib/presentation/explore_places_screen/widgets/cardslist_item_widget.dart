@@ -63,7 +63,7 @@ class CardslistItemWidget extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: "lbl_name2".tr,
+                            text: "Name: ".tr,
                             style: theme.textTheme.labelMedium,
                           ),
                           TextSpan(
@@ -82,7 +82,7 @@ class CardslistItemWidget extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: "About:".tr,
+                            text: "About: ".tr,
                             style: theme.textTheme.labelMedium,
                           ),
                           TextSpan(

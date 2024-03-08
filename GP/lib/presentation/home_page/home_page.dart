@@ -19,6 +19,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 
 class HomePage extends StatefulWidget {
   final String fullName;
@@ -174,12 +175,38 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildSlider() {
     var sliderItemList = controller.homeModelObj.value.sliderItemList;
+    Timer? timer; // Declare timer variable
+
+    // Function to auto-scroll the slider
+    void autoScroll() {
+      timer = Timer.periodic(Duration(seconds: 2), (timer) {
+        _carouselController.nextPage(); // Scroll to the next page
+      });
+    }
+
+    // Cancel the timer when the widget is disposed
+    @override
+    void dispose() {
+      timer?.cancel();
+      super.dispose();
+    }
+
+    autoScroll();
+
+    // Build the slider widget
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 6.h),
-      child: Obx(
-        () => Stack(
-          children: [
-            CarouselSlider.builder(
+      child: Stack(
+        children: [
+          GestureDetector(
+            // Pause auto-scroll when user touches the slider
+            onTapDown: (_) {
+              timer?.cancel();
+            },
+            onTapUp: (_) {
+              autoScroll(); // Resume auto-scroll when user releases touch
+            },
+            child: CarouselSlider.builder(
               carouselController: _carouselController,
               options: CarouselOptions(
                 height: 153,
@@ -196,32 +223,32 @@ class _HomePageState extends State<HomePage> {
                 return SliderItemWidget(model);
               },
             ),
-            Positioned(
-              left: 10.0,
-              top: 0.0,
-              bottom: 0.0,
-              child: IconButton(
-                onPressed: () {
-                  _carouselController.previousPage();
-                },
-                icon: Icon(Icons.arrow_back_ios),
-                color: theme.colorScheme.primaryContainer,
-              ),
+          ),
+          Positioned(
+            left: 10.0,
+            top: 0.0,
+            bottom: 0.0,
+            child: IconButton(
+              onPressed: () {
+                _carouselController.previousPage();
+              },
+              icon: Icon(Icons.arrow_back_ios),
+              color: theme.colorScheme.primaryContainer,
             ),
-            Positioned(
-              right: 10.0,
-              top: 0.0,
-              bottom: 0.0,
-              child: IconButton(
-                onPressed: () {
-                  _carouselController.nextPage();
-                },
-                icon: Icon(Icons.arrow_forward_ios),
-                color: theme.colorScheme.primaryContainer,
-              ),
+          ),
+          Positioned(
+            right: 10.0,
+            top: 0.0,
+            bottom: 0.0,
+            child: IconButton(
+              onPressed: () {
+                _carouselController.nextPage();
+              },
+              icon: Icon(Icons.arrow_forward_ios),
+              color: theme.colorScheme.primaryContainer,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

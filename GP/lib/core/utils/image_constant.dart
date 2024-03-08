@@ -120,6 +120,12 @@ class ImageConstant {
 
   static String imgTut2023Paid = '$imagePath/img_tut_2023_paid.png';
 
+  static String imgHistoryOfGrandEgyMueseum = '$imagePath/img_history_of_grand_egy_mueseum.png';
+
+  static String imgAncientEgyptianGarden = '$imagePath/img_ancient_egyptian_garden.png';
+
+  static String imgDiscoverAncientEgyptian = '$imagePath/img_discover_ancient_egyptian.png';
+
   static String imgArrow1 = '$imagePath/img_arrow_1.svg';
 
   static String imgArrow2 = '$imagePath/img_arrow_2.svg';
