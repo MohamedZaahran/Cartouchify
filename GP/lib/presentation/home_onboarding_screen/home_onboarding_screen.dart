@@ -56,7 +56,7 @@ class HomeOnboardingScreen extends GetWidget<HomeOnboardingController> {
                   width: 313.h,
                   child: Text(
                     "Hello $fullName,  Welcome to a journey of discovery! I'm queen Nefertiti, your guide on this adventure to unveil the hidden secrets that await you. Together, we'll navigate through the mysteries and unlock the treasures of knowledge",
-                    maxLines: 7,
+                    maxLines: 8,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: CustomTextStyles.titleMedium18,
