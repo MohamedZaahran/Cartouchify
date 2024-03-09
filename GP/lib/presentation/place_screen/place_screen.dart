@@ -157,7 +157,7 @@ class PlaceScreen extends GetWidget<PlaceController> {
           ),
           Container(
             width: 74,
-            margin: EdgeInsets.only(left: 38, bottom: 22),
+            margin: EdgeInsets.only(left: 4, bottom: 22),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -82,7 +82,7 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
                     child: bottomMenuList[index].isSelected
                         ? SizedBox(
                             height: 46.v,
-                            width: 37.h,
+                            width: 45.h,
                             child: Stack(
                               alignment: Alignment.topCenter,
                               children: [
@@ -102,12 +102,12 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
                                 CustomImageView(
                                   imagePath: bottomMenuList[index].activeIcon,
                                   height: 35.v,
-                                  width: 28.h,
+                                  width: 35.h,
                                   color: theme.colorScheme.primary,
                                   alignment: Alignment.topCenter,
                                   margin: EdgeInsets.only(
-                                    left: 4.h,
-                                    right: 5.h,
+                                    left: 8.h,
+                                    right: 9.h,
                                     bottom: 11.v,
                                   ),
                                 ),
@@ -116,7 +116,7 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
                           )
                         : SizedBox(
                             height: 45.v,
-                            width: 33.h,
+                            width: 45.h,
                             child: Stack(
                               alignment: Alignment.topCenter,
                               children: [
@@ -136,12 +136,12 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
                                 CustomImageView(
                                   imagePath: bottomMenuList[index].icon,
                                   height: 32.v,
-                                  width: 26.h,
+                                  width: 32.h,
                                   color: appTheme.red300,
                                   alignment: Alignment.topCenter,
                                   margin: EdgeInsets.only(
-                                    left: 4.h,
-                                    right: 3.h,
+                                    left: 8.h,
+                                    right: 7.h,
                                     bottom: 13.v,
                                   ),
                                 ),
