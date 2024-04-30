@@ -94,7 +94,6 @@ class ProfileScreen extends GetWidget<ProfileController> {
                   text: "lbl_change_avatar".tr,
                 ),
                 SizedBox(height: 38.v),
-                _buildNounBackRow(),
                 SizedBox(height: 17.v),
                 _buildTwentyColumn(),
                 SizedBox(height: 43.v),
@@ -123,110 +122,6 @@ class ProfileScreen extends GetWidget<ProfileController> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildNounBackRow() {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 7.h,
-        vertical: 13.v,
-      ),
-      decoration: AppDecoration.outlineRed.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder10,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: 8.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomImageView(
-                  imagePath: ImageConstant.imgFrame,
-                  height: 23.v,
-                  width: 24.h,
-                  margin: EdgeInsets.only(bottom: 2.v),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 9.h),
-                  child: Text(
-                    "lbl_language".tr,
-                    style: theme.textTheme.bodyLarge,
-                  ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5.v),
-                  child: Text(
-                    "lbl_eng".tr,
-                    style: CustomTextStyles.bodyLargeRobotoRed300,
-                  ),
-                ),
-                CustomImageView(
-                  imagePath: ImageConstant.imgArrowRight,
-                  height: 23.v,
-                  width: 24.h,
-                  margin: EdgeInsets.only(
-                    left: 9.h,
-                    bottom: 2.v,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 5.v),
-          Divider(
-            color: appTheme.gray500.withOpacity(0.5),
-          ),
-          SizedBox(height: 7.v),
-          Padding(
-            padding: EdgeInsets.only(left: 8.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomImageView(
-                  imagePath: ImageConstant.imgFramePrimary,
-                  height: 23.v,
-                  width: 24.h,
-                  margin: EdgeInsets.only(bottom: 3.v),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 9.h,
-                    top: 2.v,
-                  ),
-                  child: Text(
-                    "lbl_country".tr,
-                    style: theme.textTheme.bodyLarge,
-                  ),
-                ),
-                Spacer(),
-                CustomImageView(
-                  imagePath: ImageConstant.imgImage41,
-                  height: 20.v,
-                  width: 30.h,
-                  margin: EdgeInsets.symmetric(vertical: 3.v),
-                ),
-                CustomImageView(
-                  imagePath: ImageConstant.imgArrowRight,
-                  height: 23.v,
-                  width: 24.h,
-                  margin: EdgeInsets.only(
-                    left: 10.h,
-                    bottom: 2.v,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
