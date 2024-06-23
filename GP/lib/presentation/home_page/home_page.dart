@@ -22,8 +22,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 
 class HomePage extends StatefulWidget {
-  final String fullName;
-  final String userID;
+  String fullName;
+  String userID;
 
   HomePage({Key? key, required this.fullName, required this.userID})
       : super(key: key);
@@ -36,6 +36,15 @@ class _HomePageState extends State<HomePage> {
   final HomeController controller =
       Get.put(HomeController.withModel(HomeModel().obs));
   final CarouselController _carouselController = CarouselController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (Get.arguments != null) {
+      widget.fullName = Get.arguments['fullName'] ?? widget.fullName;
+      widget.userID = Get.arguments['userID'] ?? widget.userID;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,9 +129,9 @@ class _HomePageState extends State<HomePage> {
           height: 83,
           width: 83,
           child: Image.asset(
-            ImageConstant.ScanImage, // Provide the path to your image
-            height: 40, // Set the height of the image
-            width: 40, // Set the width of the image
+            ImageConstant.ScanImage,
+            height: 40,
+            width: 40,
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
