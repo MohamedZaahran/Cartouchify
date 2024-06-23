@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -8,6 +11,7 @@ import 'package:hierosecret/widgets/app_bar/appbar_trailing_image.dart';
 import 'package:hierosecret/widgets/app_bar/custom_app_bar.dart';
 import 'package:hierosecret/widgets/custom_bottom_app_bar.dart';
 import 'package:hierosecret/widgets/custom_floating_button.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../home_page/widgets/grid_item_widget.dart';
 import '../home_page/widgets/slider_item_widget.dart';
@@ -19,7 +23,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:async';
 
 class HomePage extends StatefulWidget {
   String fullName;
@@ -128,6 +131,9 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: CustomFloatingButton(
           height: 83,
           width: 83,
+          onTap: () {
+            _showImageSourceBottomSheet();
+          },
           child: Image.asset(
             ImageConstant.ScanImage,
             height: 40,
@@ -327,6 +333,58 @@ class _HomePageState extends State<HomePage> {
         break;
       default:
         break;
+    }
+  }
+
+  void _showImageSourceBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.photo_camera),
+                title: Text('Take a picture'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openCamera();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text('Choose from gallery'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openGallery();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _openCamera() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      // Navigate to ScannedScreen and pass the image path as an argument
+      Get.toNamed(AppRoutes.scannedScreen,
+          arguments: {'imagePath': pickedFile.path});
+    }
+  }
+
+  void _openGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      // Navigate to ScannedScreen and pass the image path as an argument
+      Get.toNamed(AppRoutes.scannedScreen,
+          arguments: {'imagePath': pickedFile.path});
     }
   }
 }

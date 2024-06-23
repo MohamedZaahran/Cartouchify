@@ -1,5 +1,7 @@
-import 'controller/scanned_controller.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'controller/scanned_controller.dart';
 import 'package:hierosecret/core/app_export.dart';
 
 class ScannedScreen extends GetWidget<ScannedController> {
@@ -7,42 +9,42 @@ class ScannedScreen extends GetWidget<ScannedController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            extendBody: true,
-            extendBodyBehindAppBar: true,
-            body: Container(
-                width: SizeUtils.width,
-                height: SizeUtils.height,
-                decoration: BoxDecoration(
-                    color: theme.colorScheme.onPrimary,
-                    image: DecorationImage(
-                        image: AssetImage(ImageConstant.imgOnboarding),
-                        fit: BoxFit.cover)),
-                child: Container(
-                    width: double.maxFinite,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 25.h, vertical: 45.v),
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 5.v),
-                          CustomImageView(
-                              imagePath: ImageConstant
-                                  .imgNounBack1521721Primarycontainer,
-                              height: 50.v,
-                              width: 41.h,
-                              onTap: () {
-                                onTapImgNounBack();
-                              })
-                        ])))));
-  }
+    final String imagePath = Get.arguments['imagePath'];
 
-  /// Navigates to the lastScannedScreen when the action is triggered.
-  onTapImgNounBack() {
-    Get.toNamed(
-      AppRoutes.lastScannedScreen,
+    return SafeArea(
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        body: Container(
+          width: SizeUtils.width,
+          height: SizeUtils.height,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.onPrimary,
+            image: DecorationImage(
+              image: AssetImage(ImageConstant.imgOnboarding),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 45),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                imagePath != null
+                    ? Image.file(
+                        File(imagePath),
+                        height: 300,
+                        width: 300,
+                      )
+                    : Container(),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
