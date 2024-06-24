@@ -1,15 +1,13 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomImageView extends StatelessWidget {
-  ///[imagePath] is required parameter for showing image
+  /// [imagePath] is a required parameter for showing an image
   String? imagePath;
-
   double? height;
   double? width;
   Color? color;
@@ -21,8 +19,8 @@ class CustomImageView extends StatelessWidget {
   BorderRadius? radius;
   BoxBorder? border;
 
-  ///a [CustomImageView] it can be used for showing any type of images
-  /// it will shows the placeholder image if image is not found on network image
+  /// A [CustomImageView] can be used for showing any type of images.
+  /// It will show the placeholder image if the image is not found on the network.
   CustomImageView({
     this.imagePath,
     this.height,
@@ -57,8 +55,8 @@ class CustomImageView extends StatelessWidget {
     );
   }
 
-  ///build the image with border radius
-  _buildCircleImage() {
+  /// Build the image with border radius
+  Widget _buildCircleImage() {
     if (radius != null) {
       return ClipRRect(
         borderRadius: radius ?? BorderRadius.zero,
@@ -69,8 +67,8 @@ class CustomImageView extends StatelessWidget {
     }
   }
 
-  ///build the image with border and border radius style
-  _buildImageWithBorder() {
+  /// Build the image with border and border radius style
+  Widget _buildImageWithBorder() {
     if (border != null) {
       return Container(
         decoration: BoxDecoration(
@@ -96,8 +94,9 @@ class CustomImageView extends StatelessWidget {
               height: height,
               width: width,
               fit: fit ?? BoxFit.contain,
-              colorFilter: ColorFilter.mode(
-                  color ?? Colors.transparent, BlendMode.srcIn),
+              colorFilter: color != null
+                  ? ColorFilter.mode(color!, BlendMode.srcIn)
+                  : null,
             ),
           );
         case ImageType.file:
