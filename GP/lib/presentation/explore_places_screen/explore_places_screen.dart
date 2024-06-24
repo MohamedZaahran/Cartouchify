@@ -75,7 +75,6 @@ class ExplorePlacesScreen extends GetWidget<ExplorePlacesController> {
                     },
                   ),
                   CustomImageView(
-                    imagePath: ImageConstant.imgVectorPrimarycontainer,
                     height: 24.v,
                     width: 16.h,
                     margin: EdgeInsets.only(top: 3.v, bottom: 13.v),
