@@ -1,18 +1,17 @@
 import 'package:firebase_storage/firebase_storage.dart';
-
-import 'controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hierosecret/core/app_export.dart';
-import 'package:hierosecret/presentation/home_page/home_page.dart';
 import 'package:hierosecret/widgets/custom_bottom_app_bar.dart';
 import 'package:hierosecret/widgets/custom_floating_button.dart';
 import 'package:hierosecret/widgets/custom_outlined_button.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hierosecret/widgets/country.dart';
 import 'dart:io'; // Add this import
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -34,7 +33,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     GetArguments();
     if (userID.isNotEmpty) {
-      _fetchAvatarURL();
+      _fetchCountry();
+      _fetchAvatar();
     }
   }
 
@@ -46,7 +46,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  Future<void> _fetchAvatarURL() async {
+  Future<void> _fetchCountry() async {
+    if (userID.isNotEmpty) {
+      try {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userID)
+            .get();
+        if (userDoc.exists) {
+          String newSelectedCountry = userDoc['selectedCountry'] ?? 'Egypt';
+            setState(() {
+              selectedCountry = newSelectedCountry;
+              selectedCountryFlag = countries
+                  .firstWhere((country) => country.name == newSelectedCountry)
+                  .flag;
+            });
+        }
+      } catch (e) {
+        print('Error fetching user profile: $e');
+      }
+    }
+  }
+
+  Future<void> _fetchAvatar() async {
     if (userID.isNotEmpty) {
       try {
         DocumentSnapshot userDoc = await FirebaseFirestore.instance
@@ -55,19 +77,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
             .get();
         if (userDoc.exists) {
           String newAvatarURL = userDoc['avatarURL'] ?? '';
-          // Use setState only if necessary and during the right lifecycle
-          if (newAvatarURL != avatarURL) {
             setState(() {
               avatarURL = newAvatarURL;
             });
-          }
         }
       } catch (e) {
-        print('Error fetching avatar URL: $e');
+        print('Error fetching user profile: $e');
       }
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -114,56 +133,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                 ),
                 SizedBox(height: 31.v),
-              CustomOutlinedButton(
-                width: 213.h,
-                text: "lbl_change_avatar".tr,
-                onPressed: () {
-                  _showImageSourceBottomSheet(context);
-                },
-              ),
-              SizedBox(height: 30.v),
-              _buildCountryDropdown(context),
-              SizedBox(height: 17.v),
-              _buildTwentyColumn(context),
-              SizedBox(height: 43.v),
-              _buildSeventeenColumn(context),
-            ],
+                CustomOutlinedButton(
+                  width: 213.h,
+                  text: "lbl_change_avatar".tr,
+                  onPressed: () {
+                    _showImageSourceBottomSheet(context);
+                  },
+                ),
+                SizedBox(height: 30.v),
+                _buildCountryDropdown(context),
+                SizedBox(height: 17.v),
+                _buildTwentyColumn(context),
+                SizedBox(height: 43.v),
+                _buildSeventeenColumn(context),
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: CustomBottomAppBar(
-      onChanged: (type) {
-        try {
-          String route = getCurrentRoute(type);
-          print('Navigating to route: $route with arguments: fullName=$fullName, userID=$userID');
-          Get.toNamed(route, arguments: {
-            'fullName': fullName,
-            'userID': userID,
-          });
-        } catch (e) {
-          print('Navigation error: $e');
-        }
-      },
-    ),
-
-
-      floatingActionButton: CustomFloatingButton(
-        height: 83,
-        width: 83,
-        onTap: () {
-          _showImageSourceBottomSheet(context);
-        },
-        backgroundColor: theme.colorScheme.primary,
-        child: Image.asset(
-          ImageConstant.ScanImage,
-          height: 40,
-          width: 40,
+        bottomNavigationBar: CustomBottomAppBar(
+          currentTab: BottomBarEnum.Profile,
+          onChanged: (type) {
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              try {
+                String route = getCurrentRoute(type);
+                print('Navigating to route: $route with arguments: fullName=$fullName, userID=$userID');
+                Get.toNamed(route, arguments: {
+                  'fullName': fullName,
+                  'userID': userID,
+                });
+              } catch (e) {
+                print('Navigation error: $e');
+              }
+            });
+          },
         ),
+        floatingActionButton: CustomFloatingButton(
+          height: 83,
+          width: 83,
+          onTap: () {
+            _showImageSourceBottomSheetScan();
+          },
+          backgroundColor: theme.colorScheme.primary,
+          child: Image.asset(
+            ImageConstant.ScanImage,
+            height: 40,
+            width: 40,
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    ),
-  );
-}
+    );
+  }
 
   /// Country Dropdown Widget
   Widget _buildCountryDropdown(BuildContext context) {
@@ -190,39 +210,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     left: 9.h,
                     top: 2.v,
                   ),
-                  child: DropdownButton<String>(
-                    value: selectedCountry,
-                    icon: CustomImageView(
-                      imagePath: ImageConstant.imgArrowRight,
-                      height: 23.v,
-                      width: 24.h,
-                      margin: EdgeInsets.only(left: 10.h, bottom: 2.v),
+                  child: Container(
+                    width: 310.h,  // Adjust this width as needed
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: selectedCountry,
+                      icon: CustomImageView(
+                        imagePath: ImageConstant.imgArrowRight,
+                        height: 23.v,
+                        width: 24.h,
+                        margin: EdgeInsets.only(left: 10.h, bottom: 2.v),
+                      ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedCountry = newValue!;
+                          selectedCountryFlag = countries
+                              .firstWhere((country) => country.name == newValue)
+                              .flag;
+                          _saveSelectedCountry(newValue);
+                        });
+                      },
+                      items: countries
+                          .map<DropdownMenuItem<String>>((Country country) {
+                        return DropdownMenuItem<String>(
+                          value: country.name,
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                country.flag,
+                                height: 20.v,
+                                width: 20.h,
+                              ),
+                              SizedBox(width: 10.h),
+                              Text(country.name),
+                            ],
+                          ),
+                        );
+                      }).toList(),
                     ),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedCountry = newValue!;
-                        selectedCountryFlag = countries
-                            .firstWhere((country) => country.name == newValue)
-                            .flag;
-                      });
-                    },
-                    items: countries
-                        .map<DropdownMenuItem<String>>((Country country) {
-                      return DropdownMenuItem<String>(
-                        value: country.name,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              country.flag,
-                              height: 20.v,
-                              width: 20.h,
-                            ),
-                            SizedBox(width: 10.h),
-                            Text(country.name),
-                          ],
-                        ),
-                      );
-                    }).toList(),
                   ),
                 ),
               ],
@@ -231,6 +256,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _saveSelectedCountry(String newCountry) async {
+    if (userID.isNotEmpty) {
+      try {
+        await FirebaseFirestore.instance.collection('users').doc(userID).update({
+          'selectedCountry': newCountry,
+        });
+      } catch (e) {
+        print('Error saving selected country: $e');
+      }
+    }
   }
 
   /// Section Widget
@@ -462,16 +499,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   String getCurrentRoute(BottomBarEnum type) {
-  switch (type) {
-    case BottomBarEnum.Home:
-      return AppRoutes.homePage;
-    case BottomBarEnum.Profile:
-      return AppRoutes.profileScreen;
-    default:
-      return "/";  // Default route for debugging
+    switch (type) {
+      case BottomBarEnum.Home:
+        return AppRoutes.homePage;
+      case BottomBarEnum.Profile:
+        return AppRoutes.profileScreen;
+      default:
+        return "/"; // Default route for debugging
+    }
   }
-}
-
 
   void showContactUsEmail(String message) {
     Get.snackbar("Our email:", message,
@@ -479,5 +515,103 @@ class _ProfileScreenState extends State<ProfileScreen> {
         colorText: Colors.white,
         duration: Duration(seconds: 3),
         snackPosition: SnackPosition.BOTTOM);
+  }
+
+  void _showImageSourceBottomSheetScan() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.photo_camera),
+                title: Text('Take a picture'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openCameraScan();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text('Choose from gallery'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openGalleryScan();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _openCameraScan() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      _uploadImage(imageFile);
+    }
+  }
+
+  void _openGalleryScan() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      _uploadImage(imageFile);
+    }
+  }
+
+  void _uploadImage(File imageFile) async {
+    String url =
+        'http://192.168.1.17:5000/predict'; // Replace with your Flask server URL
+
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.files
+          .add(await http.MultipartFile.fromPath('file', imageFile.path));
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        var responseData = await response.stream.bytesToString();
+        var result = jsonDecode(responseData);
+        _showResultDialog(result);
+      } else {
+        print('Failed to upload image. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+    }
+  }
+
+  void _showResultDialog(Map<String, dynamic> result) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Prediction Result'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Class Index: ${result['predicted_class_index']}'),
+              Text('Description: ${result['description']}'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

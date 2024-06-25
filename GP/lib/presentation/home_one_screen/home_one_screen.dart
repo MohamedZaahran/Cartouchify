@@ -50,7 +50,7 @@ class HomeOneScreen extends GetWidget<HomeOneController> {
             ],
           ),
         ),
-        bottomNavigationBar: _buildFiftyNine(),
+        
         floatingActionButton: CustomFloatingButton(
           height: 83,
           width: 83,
@@ -159,13 +159,7 @@ class HomeOneScreen extends GetWidget<HomeOneController> {
   }
 
   /// Section Widget
-  Widget _buildFiftyNine() {
-    return CustomBottomAppBar(
-      onChanged: (BottomBarEnum type) {
-        Get.toNamed(getCurrentRoute(type), id: 1);
-      },
-    );
-  }
+  
 
   ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {

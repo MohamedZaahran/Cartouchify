@@ -29,7 +29,6 @@ class HomeContainerScreen extends GetWidget<HomeContainerController> {
                     onGenerateRoute: (routeSetting) => GetPageRoute(
                         page: () => getCurrentPage(routeSetting.name!),
                         transition: Transition.noTransition))),
-            bottomNavigationBar: _buildBottomAppBar(),
             floatingActionButton: CustomFloatingButton(
                 height: 83,
                 width: 83,
@@ -43,11 +42,7 @@ class HomeContainerScreen extends GetWidget<HomeContainerController> {
   }
 
   /// Section Widget
-  Widget _buildBottomAppBar() {
-    return CustomBottomAppBar(onChanged: (BottomBarEnum type) {
-      Get.toNamed(getCurrentRoute(type), id: 1);
-    });
-  }
+
 
   ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {

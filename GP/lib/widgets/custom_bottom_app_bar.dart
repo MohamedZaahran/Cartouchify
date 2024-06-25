@@ -3,21 +3,24 @@ import 'package:hierosecret/core/app_export.dart';
 
 class CustomBottomAppBar extends StatefulWidget {
   final Function(BottomBarEnum)? onChanged;
+  final BottomBarEnum currentTab;
 
-  const CustomBottomAppBar({Key? key, this.onChanged}) : super(key: key);
+  const CustomBottomAppBar({
+    Key? key,
+    this.onChanged,
+    required this.currentTab,
+  }) : super(key: key);
 
   @override
   _CustomBottomAppBarState createState() => _CustomBottomAppBarState();
 }
 
 class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
-  late bool home;
   late RxList<BottomMenuModel> bottomMenuList;
 
   @override
   void initState() {
     super.initState();
-    home = true;
     bottomMenuList = [
       BottomMenuModel(
         icon: ImageConstant.imgNounHome6503544,
@@ -32,29 +35,19 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
         type: BottomBarEnum.Profile,
       ),
     ].obs;
+
+    setSelected(widget.currentTab);
   }
 
   void setSelected(BottomBarEnum type) {
-    setState(() {
-      home = type == BottomBarEnum.Home;
-    });
-  }
-
-  @override
-  void didUpdateWidget(covariant CustomBottomAppBar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Update the home state based on the onChanged callback
-    home = widget.onChanged == null ||
-        widget.onChanged!(BottomBarEnum.Home) == BottomBarEnum.Home;
+    for (var item in bottomMenuList) {
+      item.isSelected = item.type == type;
+    }
+    bottomMenuList.refresh();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("HOME = $home");
-    bottomMenuList[0].isSelected = !home;
-    bottomMenuList[1].isSelected = home;
-    bottomMenuList.refresh();
-
     return Obx(
       () => ClipRRect(
         borderRadius: BorderRadius.only(
@@ -77,7 +70,6 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
                     onTap: () {
                       setSelected(bottomMenuList[index].type);
                       widget.onChanged?.call(bottomMenuList[index].type);
-                      bottomMenuList.refresh();
                     },
                     child: bottomMenuList[index].isSelected
                         ? SizedBox(
@@ -94,7 +86,7 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
                                       bottomMenuList[index].title ?? "",
                                       style: CustomTextStyles.labelLargePrimary
                                           .copyWith(
-                                        color: theme.colorScheme.primary,
+                                        color: appTheme.red300, // Orange color for active tab
                                       ),
                                     ),
                                   ),
@@ -103,7 +95,7 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
                                   imagePath: bottomMenuList[index].activeIcon,
                                   height: 35.v,
                                   width: 35.h,
-                                  color: theme.colorScheme.primary,
+                                  color: appTheme.red300, // Orange color for active tab
                                   alignment: Alignment.topCenter,
                                   margin: EdgeInsets.only(
                                     left: 8.h,
@@ -128,7 +120,7 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
                                       bottomMenuList[index].title ?? "",
                                       style:
                                           theme.textTheme.labelLarge!.copyWith(
-                                        color: appTheme.red300,
+                                        color: theme.colorScheme.primary, // Purple color for inactive tab
                                       ),
                                     ),
                                   ),
@@ -137,7 +129,7 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
                                   imagePath: bottomMenuList[index].icon,
                                   height: 32.v,
                                   width: 32.h,
-                                  color: appTheme.red300,
+                                  color: theme.colorScheme.primary, // Purple color for inactive tab
                                   alignment: Alignment.topCenter,
                                   margin: EdgeInsets.only(
                                     left: 8.h,
@@ -183,6 +175,7 @@ class BottomMenuModel {
 
   bool isSelected;
 }
+
 
 class DefaultWidget extends StatelessWidget {
   @override

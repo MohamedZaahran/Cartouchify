@@ -469,4 +469,5 @@ class RegisterScreen extends GetWidget<RegisterController> {
       AppRoutes.loginScreen,
     );
   }
+  
 }

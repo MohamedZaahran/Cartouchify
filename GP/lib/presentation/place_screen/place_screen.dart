@@ -124,15 +124,6 @@ class PlaceScreen extends GetWidget<PlaceController> {
               },
             ),
           ),
-          Positioned(
-            top: 45,
-            left: 25,
-            child: CustomImageView(
-              imagePath: ImageConstant.imgNounBack1521721Primarycontainer,
-              height: 50,
-              width: 41,
-            ),
-          ),
         ],
       ),
     );
