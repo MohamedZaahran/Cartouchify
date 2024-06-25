@@ -42,7 +42,7 @@ class HomeModel {
       ),
       GridItemModel(
         nameGeneratorImage: ImageConstant.imgHieroglyphsGet.obs,
-        nameGeneratorText: "Learn Heiroglyphs".obs,
+        nameGeneratorText: "Learn Hieroglyphics".obs,
       ),
     ]);
   }

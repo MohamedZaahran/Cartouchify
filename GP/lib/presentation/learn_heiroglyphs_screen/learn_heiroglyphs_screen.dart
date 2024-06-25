@@ -154,7 +154,7 @@ class _LearnHeiroglyphsScreenState extends State<LearnHeiroglyphsScreen> {
       ),
       centerTitle: true,
       title: AppbarTitle(
-        text: "Learn Heiroglyphs".tr,
+        text: "Learn Hieroglyphics".tr,
         margin: EdgeInsets.only(top: 48.v),
       ),
       styleType: Style.bgFill,
