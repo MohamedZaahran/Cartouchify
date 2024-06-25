@@ -22,7 +22,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 class HomePage extends StatefulWidget {
   String fullName;
   String userID;
@@ -49,80 +48,81 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-Widget build(BuildContext context) {
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  return SafeArea(
-    child: Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Container(
-          width: SizeUtils.width,
-          height: SizeUtils.height,
-          padding: EdgeInsets.only(top: 56.v),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.onPrimary,
-            image: DecorationImage(
-              image: AssetImage(ImageConstant.imgOnboarding),
-              fit: BoxFit.cover,
-            ),
-          ),
+  Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    return SafeArea(
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        appBar: _buildAppBar(),
+        body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
           child: Container(
-            width: double.maxFinite,
-            padding: EdgeInsets.symmetric(horizontal: 30.h, vertical: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "What's New?".tr,
-                  style: theme.textTheme.titleLarge,
-                ),
-                SizedBox(height: 5.v),
-                _buildSlider(),
-                SizedBox(height: 13.v),
-                Obx(
-                  () => Container(
-                    height: 15.v,
-                    margin: EdgeInsets.only(left: 120.h),
-                    child: AnimatedSmoothIndicator(
-                      activeIndex: controller.sliderIndex.value,
-                      count: controller
-                          .homeModelObj.value.sliderItemList.value.length,
-                      axisDirection: Axis.horizontal,
-                      effect: ScrollingDotsEffect(
-                        spacing: 5,
-                        activeDotColor: appTheme.red300,
-                        dotColor: theme.colorScheme.primary,
-                        dotHeight: 15.v,
-                        dotWidth: 15.h,
+            width: SizeUtils.width,
+            height: SizeUtils.height,
+            padding: EdgeInsets.only(top: 56.v),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.onPrimary,
+              image: DecorationImage(
+                image: AssetImage(ImageConstant.imgOnboarding),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              width: double.maxFinite,
+              padding: EdgeInsets.symmetric(horizontal: 30.h, vertical: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "What's New?".tr,
+                    style: theme.textTheme.titleLarge,
+                  ),
+                  SizedBox(height: 5.v),
+                  _buildSlider(),
+                  SizedBox(height: 13.v),
+                  Obx(
+                    () => Container(
+                      height: 15.v,
+                      margin: EdgeInsets.only(left: 120.h),
+                      child: AnimatedSmoothIndicator(
+                        activeIndex: controller.sliderIndex.value,
+                        count: controller
+                            .homeModelObj.value.sliderItemList.value.length,
+                        axisDirection: Axis.horizontal,
+                        effect: ScrollingDotsEffect(
+                          spacing: 5,
+                          activeDotColor: appTheme.red300,
+                          dotColor: theme.colorScheme.primary,
+                          dotHeight: 15.v,
+                          dotWidth: 15.h,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 2.v),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 6.h,
+                  SizedBox(height: 2.v),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 6.h,
+                    ),
+                    child: Text(
+                      "lbl_activities".tr,
+                      style: theme.textTheme.titleLarge,
+                    ),
                   ),
-                  child: Text(
-                    "lbl_activities".tr,
-                    style: theme.textTheme.titleLarge,
-                  ),
-                ),
-                _buildGrid(),
-              ],
+                  _buildGrid(),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: CustomBottomAppBar(
-        currentTab: BottomBarEnum.Home,
-        onChanged: (type) {
-          try {
+        bottomNavigationBar: CustomBottomAppBar(
+          currentTab: BottomBarEnum.Home,
+          onChanged: (type) {
+            try {
               String route = getCurrentRoute(type);
-              print('Navigating to route: $route with arguments: fullName=${widget.fullName}, userID=${widget.userID}');
+              print(
+                  'Navigating to route: $route with arguments: fullName=${widget.fullName}, userID=${widget.userID}');
               Get.toNamed(route, arguments: {
                 'fullName': widget.fullName,
                 'userID': widget.userID,
@@ -130,79 +130,77 @@ Widget build(BuildContext context) {
             } catch (e) {
               print('Navigation error: $e');
             }
-        },
-      ),
-      floatingActionButton: CustomFloatingButton(
-        height: 83,
-        width: 83,
-        onTap: () {
-          _showImageSourceBottomSheet();
-        },
-        child: Image.asset(
-          ImageConstant.ScanImage,
-          height: 40,
-          width: 40,
+          },
         ),
+        floatingActionButton: CustomFloatingButton(
+          height: 83,
+          width: 83,
+          onTap: () {
+            _showImageSourceBottomSheet();
+          },
+          child: Image.asset(
+            ImageConstant.ScanImage,
+            height: 40,
+            width: 40,
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    ),
-  );
-}
-
+    );
+  }
 
   PreferredSizeWidget _buildAppBar() {
-  return CustomAppBar(
-    height: 100.v,
-    title: AppbarSubtitleOne(
-      text: "Hi, ${widget.fullName}",
-      margin: EdgeInsets.only(left: 26.h),
-    ),
-    actions: [
-      StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(widget.userID)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Container();
-          }
-
-          var userData = snapshot.data!.data() as Map<String, dynamic>?;
-
-          return Container(
-            margin: EdgeInsets.fromLTRB(5.h, 22.v, 22.h, 6.v),
-            child: ClipOval(
-              child: Container(
-                width: 55.v,
-                height: 55.v,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: userData != null && userData['avatarURL'] != null
-                    ? Image.network(
-                        userData['avatarURL'],
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return SvgPicture.asset(
-                            ImageConstant.imgSettingsPrimary,
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      )
-                    : SvgPicture.asset(
-                        ImageConstant.imgSettingsPrimary,
-                        fit: BoxFit.cover,
-                      ),
-              ),
-            ),
-          );
-        },
+    return CustomAppBar(
+      height: 100.v,
+      title: AppbarSubtitleOne(
+        text: "Hi, ${widget.fullName}",
+        margin: EdgeInsets.only(left: 26.h),
       ),
-    ],
-  );
-}
+      actions: [
+        StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(widget.userID)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Container();
+            }
 
+            var userData = snapshot.data!.data() as Map<String, dynamic>?;
+
+            return Container(
+              margin: EdgeInsets.fromLTRB(5.h, 22.v, 22.h, 6.v),
+              child: ClipOval(
+                child: Container(
+                  width: 55.v,
+                  height: 55.v,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: userData != null && userData['avatarURL'] != null
+                      ? Image.network(
+                          userData['avatarURL'],
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return SvgPicture.asset(
+                              ImageConstant.imgSettingsPrimary,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                      : SvgPicture.asset(
+                          ImageConstant.imgSettingsPrimary,
+                          fit: BoxFit.cover,
+                        ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
 
   Widget _buildSlider() {
     var sliderItemList = controller.homeModelObj.value.sliderItemList;
@@ -403,7 +401,7 @@ Widget build(BuildContext context) {
 
   void _uploadImage(File imageFile) async {
     String url =
-        'http://192.168.1.17:5000/predict'; // Replace with your Flask server URL
+        'http://192.168.1.10:5000/predict'; // Replace with your Flask server URL
 
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
@@ -414,7 +412,16 @@ Widget build(BuildContext context) {
       if (response.statusCode == 200) {
         var responseData = await response.stream.bytesToString();
         var result = jsonDecode(responseData);
-        _showResultDialog(result);
+
+        // Extract description as a string
+        String description = result['description'].toString();
+
+        // Navigate to ScannedScreen with image path and prediction result
+        Get.toNamed(AppRoutes.scannedScreen, arguments: {
+          'imagePath': imageFile.path,
+          'predicted_class_index': result['predicted_class_index'],
+          'description': description
+        });
       } else {
         print('Failed to upload image. Status code: ${response.statusCode}');
       }
@@ -448,5 +455,4 @@ Widget build(BuildContext context) {
       },
     );
   }
-
 }
