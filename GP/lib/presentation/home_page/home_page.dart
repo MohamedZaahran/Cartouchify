@@ -150,26 +150,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      height: 100.v,
-      title: AppbarSubtitleOne(
-        text: "Hi, ${widget.fullName}",
-        margin: EdgeInsets.only(left: 26.h),
-      ),
-      actions: [
-        StreamBuilder<DocumentSnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('users')
-              .doc(widget.userID)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Container();
-            }
+  return CustomAppBar(
+    height: 100.v,
+    title: AppbarSubtitleOne(
+      text: "Hi, ${widget.fullName}",
+      margin: EdgeInsets.only(left: 26.h),
+    ),
+    actions: [
+      StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(widget.userID)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Container();
+          }
 
-            var userData = snapshot.data!.data() as Map<String, dynamic>?;
+          var userData = snapshot.data!.data() as Map<String, dynamic>?;
 
-            return Container(
+          return GestureDetector(
+            onTap: () {
+              Get.toNamed(AppRoutes.profileScreen, arguments: {
+                'fullName': widget.fullName,
+                'userID': widget.userID,
+              });
+            },
+            child: Container(
               margin: EdgeInsets.fromLTRB(5.h, 22.v, 22.h, 6.v),
               child: ClipOval(
                 child: Container(
@@ -195,12 +202,14 @@ class _HomePageState extends State<HomePage> {
                         ),
                 ),
               ),
-            );
-          },
-        ),
-      ],
-    );
-  }
+            ),
+          );
+        },
+      ),
+    ],
+  );
+}
+
 
   Widget _buildSlider() {
     var sliderItemList = controller.homeModelObj.value.sliderItemList;
@@ -401,7 +410,7 @@ class _HomePageState extends State<HomePage> {
 
   void _uploadImage(File imageFile) async {
     String url =
-        'http://192.168.1.10:5000/predict'; // Replace with your Flask server URL
+        'http://192.168.1.17:5000/predict'; // Replace with your Flask server URL
 
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
@@ -420,7 +429,8 @@ class _HomePageState extends State<HomePage> {
         Get.toNamed(AppRoutes.scannedScreen, arguments: {
           'imagePath': imageFile.path,
           'predicted_class_index': result['predicted_class_index'],
-          'description': description
+          'description': description,
+          'userID': widget.userID,
         });
       } else {
         print('Failed to upload image. Status code: ${response.statusCode}');
@@ -428,31 +438,5 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       print('Error uploading image: $e');
     }
-  }
-
-  void _showResultDialog(Map<String, dynamic> result) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Prediction Result'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Class Index: ${result['predicted_class_index']}'),
-              Text('Description: ${result['description']}'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }

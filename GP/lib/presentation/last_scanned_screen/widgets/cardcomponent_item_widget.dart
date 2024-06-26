@@ -1,110 +1,71 @@
-import '../controller/last_scanned_controller.dart';
-import '../models/cardcomponent_item_model.dart';
 import 'package:flutter/material.dart';
+import 'package:hierosecret/presentation/last_scanned_screen/models/cardcomponent_item_model.dart';
 import 'package:hierosecret/core/app_export.dart';
+import 'package:intl/intl.dart'; // Add this import
 
-// ignore: must_be_immutable
-class CardcomponentItemWidget extends StatelessWidget {
-  CardcomponentItemWidget(
-    this.cardcomponentItemModelObj, {
-    Key? key,
-  }) : super(
-          key: key,
-        );
+class CardComponentItemWidget extends StatelessWidget {
+  final CardcomponentItemModel model;
 
-  CardcomponentItemModel cardcomponentItemModelObj;
-
-  var controller = Get.find<LastScannedController>();
+  const CardComponentItemWidget({Key? key, required this.model})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 20.h,
-        vertical: 18.v,
-      ),
-      decoration: AppDecoration.outlineRed300.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder20,
-      ),
-      child: Row(
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgImage4280x87,
-            height: 80.v,
-            width: 87.h,
-            radius: BorderRadius.circular(
-              20.h,
-            ),
-            margin: EdgeInsets.only(top: 1.v),
-          ),
-          Container(
-            height: 46.v,
-            width: 163.h,
-            margin: EdgeInsets.only(
-              left: 16.h,
-              top: 20.v,
-              bottom: 13.v,
-            ),
-            child: Stack(
-              alignment: Alignment.bottomLeft,
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Obx(
-                    () => Text(
-                      cardcomponentItemModelObj.placeName!.value,
-                      style: theme.textTheme.labelLarge,
-                    ),
+    // Parse the timestamp and format it to display only the date
+    String formattedDate = '';
+    if (model.timeStamp?.value.isNotEmpty == true) {
+      try {
+        DateTime dateTime = DateTime.parse(model.timeStamp!.value);
+        formattedDate = DateFormat.yMMMd().format(dateTime);
+      } catch (e) {
+        formattedDate = model.timeStamp!.value; // Fallback to the original value if parsing fails
+      }
+    }
+
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            (model.imageURL?.value ?? '').isNotEmpty
+                ? Image.network(
+                    model.imageURL!.value,
+                    height: 150,
+                    width: double.infinity,
+                    fit: BoxFit.contain, // Changed from BoxFit.cover to BoxFit.contain
+                  )
+                : Container(),
+            SizedBox(height: 10),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                      text: "Prediction Result: ",
+                      style: theme?.textTheme?.labelMedium?.copyWith(fontSize: 18.0)),
+                  TextSpan(
+                    text: model.description?.value ?? '',
+                    style: CustomTextStyles.labelMediumffc18553.copyWith(fontSize: 18.0), // Set the prediction result to orange
                   ),
-                ),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Obx(
-                    () => Text(
-                      cardcomponentItemModelObj.date!.value,
-                      style: theme.textTheme.labelLarge,
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: SizedBox(
-                    height: 44.v,
-                    width: 129.h,
-                    child: Stack(
-                      alignment: Alignment.bottomLeft,
-                      children: [
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: SizedBox(
-                            width: 127.h,
-                            child: Obx(
-                              () => Text(
-                                cardcomponentItemModelObj.museumName!.value,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: CustomTextStyles.bodySmallPrimary,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Obx(
-                            () => Text(
-                              cardcomponentItemModelObj.museumDate!.value,
-                              style: CustomTextStyles.bodySmallPrimary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: 10),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                      text: "Date: ",
+                      style: theme?.textTheme?.labelMedium?.copyWith(fontSize: 18.0)),
+                  TextSpan(
+                      text: "$formattedDate",
+                      style: CustomTextStyles.labelMediumffc18553.copyWith(fontSize: 18.0))
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

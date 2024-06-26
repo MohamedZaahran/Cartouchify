@@ -20,7 +20,7 @@ model.classifier = nn.Sequential(
 )
 
 # Load the saved state dictionary
-file_path = r'C:\Users\seifh\IdeaProjects\Grad\HieroSecret\GP\Classification_Model.pt'
+file_path = r'F:\ASU\Graduation Project\GP\HieroSecret\GP\Classification_Model.pt'
 state_dict = torch.load(file_path, map_location=torch.device('cpu'))  # Use map_location for compatibility
 model.load_state_dict(state_dict, strict=False)
 

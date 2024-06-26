@@ -55,12 +55,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             .get();
         if (userDoc.exists) {
           String newSelectedCountry = userDoc['selectedCountry'] ?? 'Egypt';
-            setState(() {
-              selectedCountry = newSelectedCountry;
-              selectedCountryFlag = countries
-                  .firstWhere((country) => country.name == newSelectedCountry)
-                  .flag;
-            });
+          setState(() {
+            selectedCountry = newSelectedCountry;
+            selectedCountryFlag = countries
+                .firstWhere((country) => country.name == newSelectedCountry)
+                .flag;
+          });
         }
       } catch (e) {
         print('Error fetching user profile: $e');
@@ -77,16 +77,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
             .get();
         if (userDoc.exists) {
           String newAvatarURL = userDoc['avatarURL'] ?? '';
-            setState(() {
-              avatarURL = newAvatarURL;
-            });
+          setState(() {
+            avatarURL = newAvatarURL;
+          });
         }
       } catch (e) {
         print('Error fetching user profile: $e');
       }
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -156,7 +156,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SchedulerBinding.instance.addPostFrameCallback((_) {
               try {
                 String route = getCurrentRoute(type);
-                print('Navigating to route: $route with arguments: fullName=$fullName, userID=$userID');
+                print(
+                    'Navigating to route: $route with arguments: fullName=$fullName, userID=$userID');
                 Get.toNamed(route, arguments: {
                   'fullName': fullName,
                   'userID': userID,
@@ -211,7 +212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     top: 2.v,
                   ),
                   child: Container(
-                    width: 310.h,  // Adjust this width as needed
+                    width: 310.h, // Adjust this width as needed
                     child: DropdownButton<String>(
                       isExpanded: true,
                       value: selectedCountry,
@@ -261,7 +262,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _saveSelectedCountry(String newCountry) async {
     if (userID.isNotEmpty) {
       try {
-        await FirebaseFirestore.instance.collection('users').doc(userID).update({
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userID)
+            .update({
           'selectedCountry': newCountry,
         });
       } catch (e) {
@@ -580,38 +584,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (response.statusCode == 200) {
         var responseData = await response.stream.bytesToString();
         var result = jsonDecode(responseData);
-        _showResultDialog(result);
+
+        // Extract description as a string
+        String description = result['description'].toString();
+
+        // Navigate to ScannedScreen with image path and prediction result
+        Get.toNamed(AppRoutes.scannedScreen, arguments: {
+          'imagePath': imageFile.path,
+          'predicted_class_index': result['predicted_class_index'],
+          'description': description,
+          'userID': userID,
+        });
       } else {
         print('Failed to upload image. Status code: ${response.statusCode}');
       }
     } catch (e) {
       print('Error uploading image: $e');
     }
-  }
-
-  void _showResultDialog(Map<String, dynamic> result) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Prediction Result'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Class Index: ${result['predicted_class_index']}'),
-              Text('Description: ${result['description']}'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }
