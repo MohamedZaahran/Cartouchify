@@ -18,7 +18,8 @@ class ScannedScreen extends StatelessWidget {
     if (userID.isNotEmpty && imagePath.isNotEmpty && description.isNotEmpty) {
       _saveScanData(userID, imagePath, description);
     } else {
-      print('Error: Missing one or more required arguments (userID, imagePath, description)');
+      print(
+          'Error: Missing one or more required arguments (userID, imagePath, description)');
     }
 
     return SafeArea(
@@ -57,9 +58,11 @@ class ScannedScreen extends StatelessWidget {
                       SizedBox(height: 20),
                       Text('Prediction Result:',
                           style: theme?.textTheme?.labelMedium
-                            ?.copyWith(fontSize: 28.0)),
+                              ?.copyWith(fontSize: 28.0)),
                       SizedBox(height: 10),
-                      Text(description, style: CustomTextStyles.labelMediumffc18553.copyWith(fontSize:25.0)),
+                      Text(description,
+                          style: CustomTextStyles.labelMediumffc18553
+                              .copyWith(fontSize: 25.0)),
                     ],
                   ),
                 ),
@@ -113,14 +116,17 @@ class ScannedScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _saveScanData(String userID, String imagePath, String description) async {
+  Future<void> _saveScanData(
+      String userID, String imagePath, String description) async {
     try {
       print('Starting image upload for userID: $userID, imagePath: $imagePath');
 
       // Upload image to Firebase Storage
       File file = File(imagePath);
       String fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-      Reference storageReference = FirebaseStorage.instance.ref().child('scanned_images/$userID/$fileName');
+      Reference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('scanned_images/$userID/$fileName');
       UploadTask uploadTask = storageReference.putFile(file);
       TaskSnapshot storageSnapshot = await uploadTask;
       String imageUrl = await storageSnapshot.ref.getDownloadURL();
@@ -128,7 +134,10 @@ class ScannedScreen extends StatelessWidget {
       print('Image uploaded successfully. Image URL: $imageUrl');
 
       // Save scan data to Firestore
-      CollectionReference scans = FirebaseFirestore.instance.collection('users').doc(userID).collection('scans');
+      CollectionReference scans = FirebaseFirestore.instance
+          .collection('users')
+          .doc(userID)
+          .collection('scans');
       await scans.add({
         'image_url': imageUrl,
         'description': description,
