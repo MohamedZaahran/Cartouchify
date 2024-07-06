@@ -25,7 +25,8 @@ The complexity of Egyptian hieroglyphics limits the ability of tourists and enth
 - Google Maps Integration: Shows locations of historical places.
 
 ## System Architecture of the Hieroglyphic Identification Application:
-![Screenshot 2024-07-06 144105](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/a5da15dc-6cc0-4611-a861-c957ab94ee83)
+![Screenshot 2024-07-06 144105](https://github.com/SeifHesham2/HieroSecret/assets/90388102/c647b3d2-2db4-4e70-a76e-92f57c715027)
+
 
 The system architecture for the hieroglyphic identification application is designed to ensure modularity, scalability, and ease of maintenance. It consists of three primary layers: Presentation Layer, Business Layer, and Database Layer. Each layer has specific responsibilities and interacts with the others to provide a seamless user experience.
 
@@ -98,7 +99,8 @@ These models, SqueezeNet and YOLOv8m, form the core of the image classification 
 ## Screenshots:
 - Onboarding Screen: This screen shows the name of the application.
 
-![Screenshot 2024-07-06 123536](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/3ee4a903-0f03-4524-911d-58a5db8302c1)
+![Screenshot 2024-07-06 123536](https://github.com/SeifHesham2/HieroSecret/assets/90388102/3cd5b561-037a-403f-96d7-acd624957739)
+
 
 
 - Login Screen: This screen allows the user who is already registered to enter his email and password to log in to the app.
@@ -108,7 +110,7 @@ Steps:
 - Press on the login button to navigate to the app.
 - If you are a new user you can press on Sign Up to navigate to registration.
    
-![Screenshot 2024-07-06 123733](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/b6028ff9-eeb5-4cbe-af75-a6d1e8ed1534)
+![Screenshot 2024-07-06 123733](https://github.com/SeifHesham2/HieroSecret/assets/90388102/535de5c5-57f1-4a5e-9aad-d9a4fc33ade7)
 
 
 Signup Screen: This screen makes the user enter his Full Name, Email, password, and Confirm password.
@@ -118,12 +120,14 @@ Steps:
 - Enter Password and Confirm Password.
 - Press on the Sign Up button.
 
-![Screenshot 2024-07-06 123826](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/651544e5-5015-45dd-aecc-e7a020e2abbf)
+![Screenshot 2024-07-06 123826](https://github.com/SeifHesham2/HieroSecret/assets/90388102/6cd89287-05ff-42a8-9f52-cbd40ebe98ce)
+
 
 
 Welcome Screen: This screen welcomes the user when they sign in or sign up.
 
-![Screenshot 2024-07-06 123938](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/d8cc4521-cc73-466d-8e45-4ca831fe0902)
+![Screenshot 2024-07-06 123938](https://github.com/SeifHesham2/HieroSecret/assets/90388102/a2ee84d9-19d4-459d-af79-577e5e6300b5)
+
 
 
 Home Screen: This screen contains news about museums and the activities of the app.
@@ -135,47 +139,54 @@ Steps:
 - Click on the lens to capture or to select a picture for symbol for detection
 - Click “on profile” button to view your profile.
 
-![Screenshot 2024-07-06 124027](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/c512852c-cb73-491c-ae9b-ba67f0b79548)
+![Screenshot 2024-07-06 124027](https://github.com/SeifHesham2/HieroSecret/assets/90388102/afff31de-64a7-49d0-a3a4-d85b0d9721c4)
+
 
 
 Explore Places Screen: This screen contains names and descriptions of Museums and temples, if you want to get more information click on it.
 
-![Screenshot 2024-07-06 124116](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/8b1b96e3-e6e5-4710-ae26-bc641ebc69d9)
+![Screenshot 2024-07-06 124116](https://github.com/SeifHesham2/HieroSecret/assets/90388102/6549ca5d-7106-46a4-a2c6-8dc82d7ddeda)
+
 
 
 Details Screen: This screen contains details about the selected item, and you can get the location by clicking on the Get Address button. 
 
-![Screenshot 2024-07-06 124147](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/55c06ab0-dc4f-4c6c-adb8-52a5d6d0e0fe)
+![Screenshot 2024-07-06 124147](https://github.com/SeifHesham2/HieroSecret/assets/90388102/2992afa4-572b-4144-b1c4-b42ebd76988f)
 
 
 Name Generator Screen: This screen generates your name in hieroglyphics.
 
-![Screenshot 2024-07-06 124513](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/cc2e7830-be0f-4b6c-92ca-d5d0abc2889a)
+![Screenshot 2024-07-06 124513](https://github.com/SeifHesham2/HieroSecret/assets/90388102/8671169f-28b5-4b1f-b744-bf033777526c)
 
 
 Learn Hieroglyphic Screen: This screen displays the hieroglyphics dictionary (Gardiner's list).
 
-![Screenshot 2024-07-06 124606](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/a780256b-a559-49b5-bb7f-bbd202cc89d6)
+![Screenshot 2024-07-06 124606](https://github.com/SeifHesham2/HieroSecret/assets/90388102/9693602b-3c66-4390-a8ea-c33f8a658b7c)
+
 
 
 Scanned Result Screen: This screen shows the details of the detected symbol.
 
-![Screenshot 2024-07-06 124632](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/cb3212e3-e7b1-4eac-abe6-b60c52528482)
+![Screenshot 2024-07-06 124632](https://github.com/SeifHesham2/HieroSecret/assets/90388102/508a917e-e9fd-4fd0-9ff0-237e32817e2a)
+
 
 
 Last Scanned Screen: This screen shows the last scans made by the user.
 
-![Screenshot 2024-07-06 124700](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/f63ffe79-bbd5-4b32-b507-1f7ec5b653a2)
+![Screenshot 2024-07-06 124700](https://github.com/SeifHesham2/HieroSecret/assets/90388102/d3b2318e-37ec-4a78-9800-ec04773a2477)
+
 
 
 User Profile Screen: This screen contains the user's information.
 
-![Screenshot 2024-07-06 124734](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/74171ede-4dd0-4b74-ac59-290f4776431e)
+![Screenshot 2024-07-06 124734](https://github.com/SeifHesham2/HieroSecret/assets/90388102/ffb5c47c-b22b-4e25-b8aa-1f12c98c4408)
+
 
 
 ## Technology Stack:
 
-![image](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/a80c567d-62cf-40b1-97b8-1d3a2d2add9a)
+![Screenshot 2024-07-06 132541](https://github.com/SeifHesham2/HieroSecret/assets/90388102/11d9f0b8-c100-4f84-813d-9ab751721608)
+
 
 
 ## Methodology:
@@ -185,12 +196,12 @@ The application processes images through object detection and classification mod
 Accurate recognition of hieroglyphic symbols.  
   ### Object Detection Model Result:
   
-![image](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/4aa5ca85-1559-43d2-8ed4-5576b706fc8c)
+![Screenshot 2024-07-06 132808](https://github.com/SeifHesham2/HieroSecret/assets/90388102/6c6a5354-c5c2-4ddd-ada8-470ae588712a)
 
 
   ### Classification Models Results:
-
-![image](https://github.com/Mustafahosnymohamed/Identifying-The-Hieroglyphic-Language-In-Ancient-Egyptian-Manuscripts/assets/90388102/cea6ed8f-413a-4806-b7e2-3dab3659295e)
+  
+![Screenshot 2024-07-06 134018](https://github.com/SeifHesham2/HieroSecret/assets/90388102/16c23478-7d46-42b5-ac65-096b714e30a7)
 
 
 ## Future Work:
