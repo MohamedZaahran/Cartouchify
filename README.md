@@ -75,7 +75,7 @@ This multi-layered architecture ensures that the system is well-organized, with 
 
 **Modifications**: The original SqueezeNet architecture was modified to create "SqueezeNet Tuning Through Gradual Unfreezing." Initially, all layers were frozen, and layers were gradually unfrozen from the bottom to the top during the training process. This approach helped fine-tune the model more effectively, improving performance on the specific dataset without overfitting.
 
-**Gradual Unfreezing**: This technique involves starting the training process with all layers frozen except the final layer. Gradually, layers are unfrozen from the last layer to the first, allowing them to learn and adjust weights based on the new data【7:2†source】.
+**Gradual Unfreezing**: This technique involves starting the training process with all layers frozen except the final layer. Gradually, layers are unfrozen from the last layer to the first, allowing them to learn and adjust weights based on the new data.
 
 #### 2. YOLOv8m (Object Detection)
 
